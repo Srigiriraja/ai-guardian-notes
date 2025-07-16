@@ -1,0 +1,2621 @@
+Private Cloud : A cloud delivering of required servies over the internet which is very cost effective , having full access and control over that used by is single entity.
+Public Cloud : A public cloud is built, controlled, and maintained by a third-party cloud provider. With a public cloud, anyone that wants to purchase cloud services can access and use resources. The general public availability is a key difference between public and private clouds.
+Hybrid Cloud : Hybrid cloud allows us to keep sensitive or latency-critical workloads on-premises while leveraging Azure’s scalability and DevOps tools. At LTIMindtree, we managed AKS workloads on Azure while maintaining local Active Directory for compliance. Our pipelines deployed across both environments using a self-hosted agent connected via ExpressRoute.”
+Scenario: A user logs in to access a Loan Processing App
+Login Request → Hits Azure AD (Cloud)
+
+Azure AD checks user identity + MFA policy.
+
+If approved, user accesses App hosted in Azure App Service
+
+The App makes a secure call to On-Prem SQL Server (via Hybrid Connection or ExpressRoute)
+
+The app logs and telemetry go to Azure Monitor and App Insights
+
+If there's an outage, Azure Site Recovery spins up DR in Azure for the On-Prem SQL
+
+ Hybrid Connectivity Options Used:
+Tool	Purpose
+VPN Gateway	Connect Azure and On-Prem securely
+ExpressRoute	High-speed private connection
+Azure Arc	Manage on-prem servers via Azure Portal
+Azure Hybrid Identity	Azure AD Connect syncs on-prem AD with cloud
+
+Real Example 2: LTIMindtree for Automotive Client
+Use Case:
+The client had a .NET Core microservices-based platform. They used:
+
+Azure AKS to host microservices
+
+Azure DevOps for CI/CD
+
+On-prem Jenkins for legacy pipelines
+
+Local Oracle DB and Active Directory
+
+Azure Key Vault for secrets
+
+Postman + Trivy integrated in CI
+
+Pain Point:
+They couldn't move Oracle DB due to vendor restrictions. So their services on AKS accessed on-prem DB over VPN.
+
+How You Can Pitch It in Interview:
+“At LTIMindtree, I worked on a hybrid cloud project where our AKS-hosted services in Azure connected to an on-prem Oracle DB using VPN Gateway. We built our CI/CD using Azure DevOps, deployed Terraform-based infrastructure, and integrated security scanning with Trivy and Checkov. Monitoring was unified via Azure Monitor and Grafana dashboards that collected logs from both cloud and on-prem VMs using Azure Arc.”
+
+Summary of Hybrid Cloud Benefits
+Benefit	Example
+Compliance	Keeping PII data in on-prem SQL, rest in cloud
+Cost Optimization	Run Dev/Test in cloud, Prod on-prem for licensing
+Modernization Flexibility	Slowly move apps to AKS without total migration
+Disaster Recovery	Azure as DR for on-prem servers
+Unified Monitoring	Azure Monitor + Log Analytics + Arc across environments
+
+With a traditional datacenter, you try to estimate the future resource needs. If you overestimate, you spend more on your datacenter than you need to and potentially waste money. If you underestimate, your datacenter will quickly reach capacity and your applications and services may suffer from decreased performance. Fixing an under-provisioned datacenter can take a long time. You may need to order, receive, and install more hardware. You'll also need to add power, cooling, and networking for the extra hardware.
+
+In a cloud-based model, you don’t have to worry about getting the resource needs just right. If you find that you need more virtual machines, you add more. If the demand drops and you don’t need as many virtual machines, you remove machines as needed. Either way, you’re only paying for the virtual machines that you use, not the “extra capacity” that the cloud provider has on hand.
+
+Management of the cloud
+Management of the cloud speaks to managing your cloud resources. In the cloud, you can:
+
+Automatically scale resource deployment based on need.
+Deploy resources based on a preconfigured template, removing the need for manual configuration.
+Monitor the health of resources and automatically replace failing resources.
+Receive automatic alerts based on configured metrics, so you’re aware of performance in real time.
+
+Regions
+A region is a geographical area on the planet that contains at least one, but potentially multiple datacenters that are nearby and networked together with a low-latency network. Azure intelligently assigns and controls the resources within each region to ensure workloads are appropriately balanced.
+
+When you deploy a resource in Azure, you'll often need to choose the region where you want your resource deployed.
+
+Azure Back up and DR 
+🧠 Real-World Example (First American India)
+AKS-based .NET App stored data in Azure SQL
+
+Azure SQL DB had long-term retention (LTR) via RSV
+
+App VMs had daily snapshot backup policies
+
+Recovery Vault named: rsv-prod-india
+
+Located in Central India and used GZRS storage
+
+Access was restricted using RBAC roles
+
+👨‍💻 Terraform Snippet (Backup Vault Creation)
+hcl
+Copy
+Edit
+resource "azurerm_recovery_services_vault" "example" {
+  name                = "rsv-prod"
+  location            = "Central India"
+  resource_group_name = "rg-prod-backup"
+  sku                 = "Standard"
+  soft_delete_enabled = true
+}
+🔁 Scheduling and Retention
+You define this inside Backup Policy
+
+Daily/Weekly
+
+Retain for 7 days, 30 days, 180 days, etc.
+
+Instant restore or long-term backup (e.g., 1 year)
+
+🧾 Summary
+Task	Where to Do It
+Create Backup Vault	Recovery Services Vault (RSV)
+Store VM Backups	Inside RSV, with LRS/GRS/GZRS redundancy
+Schedule & Retain Backups	Backup Policy in the same RSV
+Restore Data	From RSV backup pane
+
+
+Use availability zones in your apps
+Zonal services: You pin the resource to a specific zone (for example, VMs, managed disks, IP addresses).
+Zone-redundant services: The platform replicates automatically across zones (for example, zone-redundant storage, SQL Database).
+Non-regional services: Services are always available from Azure geographies and are resilient to zone-wide outages as well as region-wide outages.
+
+  Azure may be broken down into two main groupings: the physical infrastructure, and the management infrastructure.
+
+Physical infrastructure
+The physical infrastructure for Azure starts with datacenters. Conceptually, the datacenters are the same as large corporate datacenters. They’re facilities with resources arranged in racks, with dedicated power, cooling, and networking infrastructure.
+
+As a global cloud provider, Azure has datacenters around the world. However, these individual datacenters aren’t directly accessible. Datacenters are grouped into Azure Regions or Azure Availability Zones that are designed to help you achieve resiliency and reliability for your business-critical workloads.
+
+The Global infrastructure site gives you a chance to interactively explore the underlying Azure infrastructure.
+
+Use availability zones in your apps
+You want to ensure your services and data are redundant so you can protect your information in case of failure. When you host your infrastructure, setting up your own redundancy requires that you create duplicate hardware environments. Azure can help make your app highly available through availability zones.
+
+You can use availability zones to run mission-critical applications and build high-availability into your application architecture by co-locating your compute, storage, networking, and data resources within an availability zone and replicating in other availability zones. Keep in mind that there could be a cost to duplicating your services and transferring data between availability zones.
+
+Availability zones are primarily for VMs, managed disks, load balancers, and SQL databases. Azure services that support availability zones fall into three categories:
+
+Zonal services: You pin the resource to a specific zone (for example, VMs, managed disks, IP addresses).
+Zone-redundant services: The platform replicates automatically across zones (for example, zone-redundant storage, SQL Database).
+Non-regional services: Services are always available from Azure geographies and are resilient to zone-wide outages as well as region-wide outages.
+Even with the additional resiliency that availability zones provide, it’s possible that an event could be so large that it impacts multiple availability zones in a single region. To provide even further resilience, Azure has Region Pairs.
+Region pairs
+Most Azure regions are paired with another region within the same geography (such as US, Europe, or Asia) at least 300 miles away. This approach allows for the replication of resources across a geography that helps reduce the likelihood of interruptions because of events such as natural disasters, civil unrest, power outages, or physical network outages that affect an entire region. For example, if a region in a pair was affected by a natural disaster, services would automatically fail over to the other region in its region pair.
+Not all Azure services automatically replicate data or automatically fall back from a failed region to cross-replicate to another enabled region. In these scenarios, recovery and replication must be configured by the customer.
+
+ Important
+
+Most regions are paired in two directions, meaning they are the backup for the region that provides a backup for them (West US and East US back each other up). However, some regions, such as West India and Brazil South, are paired in only one direction. In a one-direction pairing, the Primary region does not provide backup for its secondary region. So, even though West India’s secondary region is South India, South India does not rely on West India. West India's secondary region is South India, but South India's secondary region is Central India. Brazil South is unique because it's paired with a region outside of its geography. Brazil South's secondary region is South Central US. The secondary region of South Central US isn't Brazil South.
+
+Describe Azure management infrastructure
+
+The management infrastructure includes Azure resources and resource groups, subscriptions, and accounts. Understanding the hierarchical organization will help you plan your projects and products within Azure’s
+
+Azure subscriptions : In azure Subscriptions we have two one is managenment level and another one 
+
+Using Azure requires an Azure subscription. A subscription provides you with authenticated and authorized access to Azure products and services. It also allows you to provision resources. An Azure subscription links to an Azure account, which is an identity in Microsoft Entra ID or in a directory that Microsoft Entra ID trusts.
+
+An account can have multiple subscriptions, but it’s only required to have one. In a multi-subscription account, you can use the subscriptions to configure different billing models and apply different access-management policies. You can use Azure subscriptions to define boundaries around Azure products, services, and resources. There are two types of subscription boundaries that you can use:
+
+Billing boundary: This subscription type determines how an Azure account is billed for using Azure. You can create multiple subscriptions for different types of billing requirements. Azure generates separate billing reports and invoices for each subscription so that you can organize and manage costs.
+Access control boundary: Azure applies access-management policies at the subscription level, and you can create separate subscriptions to reflect different organizational structures. An example is that within a business, you have different departments to which you apply distinct Azure subscription policies. This billing model allows you to manage and control access to the resources that users provision with specific subscriptions.
+
+Access control boundary 
+
+Users can only provision/manage services in subscriptions they have access to.
+
+It helps companies segment risk, compliance, and cost centers.
+
+Policies like “only allow VM sizes B1 or B2 in Dev subscription” can be applied easily.
+
+Azure management groups
+
+Imagine you’re at CDK Global managing 10 subscriptions for different clients and environments:
+
+💡 Management Groups:
+
+if you’re dealing with multiple applications, multiple development teams, in multiple geographies.
+
+If you have many subscriptions, you might need a way to efficiently manage access, policies, and compliance for those subscriptions. Azure management groups provide a level of scope above subscriptions. You organize subscriptions into containers called management groups and apply governance conditions to the management groups. All subscriptions within a management group automatically inherit the conditions applied to the management group, the same way that resource groups inherit settings from subscriptions and resources inherit from resource groups. Management groups give you enterprise-grade management at a large scale, no matter what type of subscriptions you might have. Management groups can be nested.
+
+management
+
+MG-CDK-Prod → contains all subscriptions for production
+
+MG-CDK-Dev → contains all dev/test subscriptions
+
+You apply:
+
+Security policies
+
+Cost limits
+
+Global RBAC roles
+
+📂 Resource Groups:
+Inside a subscription like CDK-Prod-Client1-Sub, you have:
+
+rg-prod-client1-api → contains AKS, ACR, App Gateway
+
+rg-prod-client1-db → contains Azure SQL, Key Vault
+
+These are used for resource isolation, CI/CD deployment targets, or monitoring.
+
+🧠 Analogy:
+Think of Management Groups like folders at the organization level,
+and Resource Groups like folders inside a project.
+
+🎯 Summary:
+Statement	True or False
+Management Groups = Resource Groups	❌ False
+Management Groups group subscriptions	✅ True
+Resource Groups group Azure resources	✅ True
+You can deploy VMs in a Management Group	❌ False
+You can apply RBAC at both levels	✅ True
+
+Some examples of how you could use management groups might be:
+
+Create a hierarchy that applies a policy. You could limit VM locations to the US West Region in a group called Production. This policy will inherit onto all the subscriptions that are descendants of that management group and will apply to all VMs under those subscriptions. This security policy can't be altered by the resource or subscription owner, which allows for improved governance.
+Provide user access to multiple subscriptions. By moving multiple subscriptions under a management group, you can create one Azure role-based access control (Azure RBAC) assignment on the management group. Assigning Azure RBAC at the management group level means that all sub-management groups, subscriptions, resource groups, and resources underneath that management group would also inherit those permissions. One assignment on the management group can enable users to have access to everything they need instead of scripting Azure RBAC over different subscriptions.
+
+
+✅ **Yes, you're absolutely right.**
+In **Azure production-grade environments**, especially **enterprise-scale** setups, **policies should ideally be applied at the `Management Group` level** — and here's exactly why:
+
+---
+
+### 🎯 **Why Use Management Groups for Azure Policies?**
+
+| 🔹 Feature                 | 🔹 Benefit                                                                                   |
+| -------------------------- | -------------------------------------------------------------------------------------------- |
+| **Policy Inheritance**     | All **subscriptions under the management group** inherit the policy automatically.           |
+| **Centralized Governance** | Apply **security, tagging, location restrictions** centrally across multiple teams/projects. |
+| **Scalability**            | One policy assignment covers hundreds of subscriptions—**zero redundancy**.                  |
+| **Compliance**             | Ensures all environments (Dev/Test/Prod) follow **organization-wide compliance** rules.      |
+
+---
+
+### 🏗️ Real-Time Production Scenario
+
+**Company**: LTIMindtree or First American India
+**Structure**:
+
+```
+Tenant (Directory)
+└── Management Groups
+    ├── Corp-IT
+    │   ├── Sub-Prod
+    │   └── Sub-Dev
+    └── Security
+        └── Sub-SecurityOps
+```
+
+**Requirement**:
+You want to enforce:
+
+* **Allowed locations**: Only India regions (Central India, South India)
+* **Mandatory tags**: Environment, CostCenter
+* **Deny public IPs on NICs**
+
+**Action**:
+✅ Assign **Azure Policy definitions** at the **Management Group** `Corp-IT` — this ensures:
+
+* All subscriptions under `Corp-IT` follow the policy.
+* Any new subscription added under this MG will also comply **automatically**.
+
+---
+
+### ✅ Summary
+
+| Scope Level          | Policy Application Use                           |
+| -------------------- | ------------------------------------------------ |
+| **Management Group** | ✅ Best for enterprise-wide governance            |
+| Subscription         | ✅ Fine for isolated control                      |
+| Resource Group       | 🚫 Limited — not scalable for org-wide control   |
+| Individual Resource  | ❌ Not recommended — too granular, hard to manage |
+
+---
+
+✅ **Yes, absolutely.**
+When you assign a policy at the **Management Group** or **Subscription** level in Azure, that policy **automatically applies** to all **Resource Groups and Resources** **within that scope**, unless explicitly excluded.
+
+---
+
+### 🔄 Policy Inheritance in Azure
+
+| Assigned At          | Applies To                                                |
+| -------------------- | --------------------------------------------------------- |
+| **Management Group** | → All Subscriptions → All Resource Groups → All Resources |
+| **Subscription**     | → All Resource Groups → All Resources                     |
+| **Resource Group**   | → Only resources within that RG                           |
+
+---
+
+### 🧠 Example
+
+You assign this policy:
+
+```json
+"policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/allowedLocations"
+```
+
+at the **Subscription** level — say `Sub-Production`.
+
+Then it will:
+
+* **Apply to all Resource Groups** like `RG-App1`, `RG-DB`, `RG-AKS`
+* And all resources (VMs, Storage, AKS, etc.) under those RGs
+* **Enforce during both manual and IaC deployments**
+
+---
+
+### 🔒 Important Notes
+
+* ✔️ **Policy enforcement is automatic and real-time** at lower scopes.
+* ❌ **You cannot break inheritance** unless you explicitly **exclude scopes** during assignment.
+* ✅ You can **override** a higher-scope policy with **a different assignment** at a **lower scope**, depending on policy effects (like `audit`, `deny`, etc.).
+
+---
+
+### 🧪 Pro Tip
+
+To **verify which policies are impacting a resource**, use:
+
+```bash
+az policy state list --resource <resource-id>
+```
+
+or in Azure Portal:
+
+> Go to **Resource → Policies** tab → View **Effective policies**
+
+---
+
+Important facts about management groups:
+
+10,000 management groups can be supported in a single directory.
+A management group tree can support up to six levels of depth. This limit doesn't include the root level or the subscription level.
+Each management group and subscription can support only one parent.
+
+Yes, that's absolutely correct ✅
+
+### 🔹 Azure Management Group Tree – Depth Limit:
+
+* ✅ **Max depth = 6 levels**
+* ❌ This **does not include** the **root level** (the topmost management group) or the **subscription level**.
+
+---
+
+### 🔸 Real Example:
+
+Suppose you’re working in a large enterprise (like LTI Mindtree or CDK Global) with this hierarchy:
+
+```
+Root Management Group (Not counted)
+├── Level 1: Contoso Corp
+│   ├── Level 2: IT Division
+│   │   ├── Level 3: App Teams
+│   │   │   ├── Level 4: Dev
+│   │   │   ├── Level 5: Test
+│   │   │   └── Level 6: Prod
+│   │   │       └── EA Subscription
+```
+
+👉 You’ve now reached the **maximum allowed 6 levels** before the subscription.
+Any attempt to add another level will result in an error.
+
+---
+
+### 🧠 Why this limit?
+
+To avoid:
+
+* Policy evaluation complexity
+* Performance degradation in RBAC inheritance
+* Infinite loops in governance logic
+
+
+Azure CLI Basics 
+
+Az login - Select the account you want to log in with
+
+PS C:\Users\Srigirirajaraghuram> az account show
+{
+  "environmentName": "AzureCloud",
+  "homeTenantId": "153fe4a0-672d-420f-a0f7-ba730e7f72e7",
+  "id": "b8b28901-2bea-4bea-9868-7375c38fd149",
+  "isDefault": true,
+  "managedByTenants": [],
+  "name": "Azure subscription 1",
+  "state": "Enabled",
+  "tenantDefaultDomain": "simpleram14gmail.onmicrosoft.com",
+  "tenantDisplayName": "Default Directory",
+  "tenantId": "153fe4a0-672d-420f-a0f7-ba730e7f72e7",
+  "user": {
+    "name": "simpleram14@gmail.com",
+    "type": "user"
+  }
+}
+
+Find commands 
+az find vm - Use the az find command. For example, to search for command names containing vm.
+
+az vm availability-set --help 
+
+PS C:\Users\Srigirirajaraghuram> az vm availability-set --help
+
+Group
+    az vm availability-set : Group resources into availability sets.
+        To provide redundancy to an application, it is recommended to group two or more virtual
+        machines in an availability set. This configuration ensures that during either a planned or
+        unplanned maintenance event, at least one virtual machine will be available.
+
+Commands:
+    convert    : Convert an Azure Availability Set to contain VMs with managed disks.
+    create     : Create an Azure Availability Set.
+    delete     : Delete an availability set.
+    list       : List all availability sets in a subscription.
+    list-sizes : List all available virtual machine sizes that can be used to create a new virtual
+                 machine in an existing availability set.
+    show       : Get information about an availability set.
+    update     : Update an Azure Availability Set.
+
+To search AI knowledge base for examples, use: az find "az vm availability-set"
+
+az vm create --help - You can also use --help to get parameter lists and command examples for a reference command.
+Argument	Description
+--help	View command help
+--output	Change output format: json, jsonc, tsv, table, yaml
+--query	Filter output using JMESPath
+--verbose	Print more execution details
+--debug	Show low-level REST calls for debugging
+--subscription	Specify subscription name or ID
+--only-show-errors	Suppress noncritical output
+
+Run Interactive mode with : az interactive 
+
+Azure CLI: Automates tasks, e.g., az group create --name guardian-rg --location eastus
+Why CLI? Saves time, reduces errors in TCS projects, aligns with East US region.
+Logged into CLI 2.75.0 with subscription b8b28901-2bea-4bea-9868-7375c38fd149.
+
+Azure CLI Commands:
+- az group create --name guardian-rg --location eastus : Creates resource group.
+- az group list --output table: Shows readable list.
+- --query "[].name": Filters names, e.g., az group list --query "[].name" --output tsv.
+CLI 2.75.0 in C:\Program Files (x86)\AzureCli, subscription b8b28901-2bea-4bea-9868-7375c38fd149 set at 4:15 PM.
+az find failed due to DNS error, using --help and Microsoft Learn instead.
+
+PS C:\Users\Srigirirajaraghuram> az group create --name guardian-rg --location "South India"
+{
+  "id": "/subscriptions/b8b28901-2bea-4bea-9868-7375c38fd149/resourceGroups/guardian-rg",
+  "location": "southindia",
+  "managedBy": null,
+  "name": "guardian-rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+PS C:\Users\Srigirirajaraghuram> az group --help
+
+Group
+    az group : Manage resource groups and template deployments.
+
+Subgroups:
+    lock   : Manage Azure resource group locks.
+
+Commands:
+    create : Create a new resource group.
+    delete : Delete a resource group.
+    exists : Check if a resource group exists.
+    export : Captures a resource group as a template.
+    list   : List resource groups.
+    show   : Gets a resource group.
+    update : Update a resource group.
+    wait   : Place the CLI in a waiting state until a condition of the resource group is met.
+
+To search AI knowledge base for examples, use: az find "az group"
+
+PS C:\Users\Srigirirajaraghuram> az group list
+[
+  {
+    "id": "/subscriptions/b8b28901-2bea-4bea-9868-7375c38fd149/resourceGroups/guardian-rg",
+    "location": "southindia",
+    "managedBy": null,
+    "name": "guardian-rg",
+    "properties": {
+      "provisioningState": "Succeeded"
+    },
+    "tags": null,
+    "type": "Microsoft.Resources/resourceGroups"
+  }
+]
+PS C:\Users\Srigirirajaraghuram> az group show
+the following arguments are required: --name/-n/--resource-group/-g
+
+Examples from AI knowledge base:
+https://aka.ms/cli_ref
+Read more about the command in reference docs
+PS C:\Users\Srigirirajaraghuram> az group show  --name/-n/--resource-group/-g
+the following arguments are required: --name/-n/--resource-group/-g
+
+Examples from AI knowledge base:
+https://aka.ms/cli_ref
+Read more about the command in reference docs
+PS C:\Users\Srigirirajaraghuram> az group show  --name/-n/--guardian-rg/-g
+the following arguments are required: --name/-n/--resource-group/-g
+
+Examples from AI knowledge base:
+az group show --resource-group myresourcegroup
+Gets a resource group. (autogenerated)
+
+az account show
+Get the details of a subscription. (autogenerated)
+
+az group list --query "[?location=='westus']"
+List all resource groups located in the West US region.
+
+https://docs.microsoft.com/en-US/cli/azure/group#az_group_show
+Read more about the command in reference docs
+PS C:\Users\Srigirirajaraghuram>
+
+az group show --name guardian-rg --output table - Shows the details of guardian-rg
+
+az group show
+learn.microsoft.com/en-us/cli/azure/group#az-group-show 
+
+Azure CLI Commands:
+- az group create --name guardian-rg --location southindia : Created resource group at 4:56 PM.
+- az group show --name guardian-rg  : Shows details, use --name or -g, not combined.
+- az group list --output table : Lists resource groups (guardian-rg in southindia).
+- --query "[].name": Filters names, e.g., az group list --query "[].name" --output tsv.
+CLI 2.75.0 in C:\Program Files (x86)\AzureCli, subscription b8b28901-2bea-4bea-9868-7375c38fd149.
+Bypassed az find DNS error using --help and Microsoft Learn.
+
+PS C:\Users\Srigirirajaraghuram> az group create --name guardian-rg --location "South India"
+{
+  "id": "/subscriptions/b8b28901-2bea-4bea-9868-7375c38fd149/resourceGroups/guardian-rg",
+  "location": "southindia",
+  "managedBy": null,
+  "name": "guardian-rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+PS C:\Users\Srigirirajaraghuram> az group show -n guardian-rg
+{
+  "id": "/subscriptions/b8b28901-2bea-4bea-9868-7375c38fd149/resourceGroups/guardian-rg",
+  "location": "southindia",
+  "managedBy": null,
+  "name": "guardian-rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+PS C:\Users\Srigirirajaraghuram> az group list --output table
+Name         Location    Status
+-----------  ----------  ---------
+guardian-rg  southindia  Succeeded
+PS C:\Users\Srigirirajaraghuram>
+
+Review of Completed Tasks
+CLI Commands:
+az group create --name guardian-rg --location "South India": Created guardian-rg at 4:56 PM, confirmed in South India.
+az group show -n guardian-rg: Successfully displayed details of guardian-rg.
+az group list --output table: Listed resource groups, showing guardian-rg with Succeeded status.
+Notes: Updated notes.txt with CLI commands, arguments (--query "[].name", --output tsv), and az find workaround.
+Learning: Reviewed learn.microsoft.com/en-us/cli/azure/group#az-group-show, mastering --name/-n/-g syntax.
+Real-Time Context: At TCS, accurate CLI usage (e.g., az group show -n) reduces setup errors by 20%, similar to your LTIMindtree VNet automation.
+Checkpoint: guardian-rg exists, CLI commands work, and you’re ready to proceed.
+Note: Running az group create --name guardian-rg again (as shown) didn’t create a duplicate because Azure CLI skips if the resource group exists, returning the existing group’s details. For guardian-test-rg, you’ll create a new resource group.
+
+az group create --name guardian-test-rg --location southindia --output table
+az group show -n guardian-test-rg --output table
+
+PS C:\Users\Srigirirajaraghuram> az group create --name guardian-test-rg --location southindia --output table
+Location    Name
+----------  ----------------
+southindia  guardian-test-rg
+PS C:\Users\Srigirirajaraghuram> az group show --name guardian-test-rg --output table
+Location    Name
+----------  ----------------
+southindia  guardian-test-rg
+
+CLI Success: Accurate az group show -n guardian-rg at 5:17 PM, reduces errors like LTIMindtree VNet automation!
+
+az group list --query "[?location=='southindia'].{Name:name, Location:location}" --output table - filtering and formatting outputs, which is critical for TCS automation.
+PS C:\Users\Srigirirajaraghuram> az group list --query "[?location=='southindia'].{Name:name, Location:location}" --output table
+Name              Location
+----------------  ----------
+guardian-rg       southindia
+guardian-test-rg  southindia
+PS C:\Users\Srigirirajaraghuram> az
+
+Git - Which is a software and application we can install it our local machines to mange changes to project that traks and manages we can see in futures in future.
+Git hub - is and cloud based application and website , what git is doing in the local machine what ever the work we do we actaully call it as git repository the same job git hub will do in online that means in cloud ,  we can now upload and store the repository in online so every one working in that specific project can see it work track online remotely as the access levels in org in real time this works in a way .
+
+Git Configurations 
+++ System Level 
+++ user level (Global)
+++ Repository Level 
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --system --list
+diff.astextplain.textconv=astextplain
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+http.sslbackend=openssl
+http.sslcainfo=C:/Program Files/Git/mingw64/etc/ssl/certs/ca-bundle.crt
+core.autocrlf=true
+core.fscache=true
+core.symlinks=false
+pull.rebase=false
+credential.helper=manager
+credential.https://dev.azure.com.usehttppath=true
+init.defaultbranch=master
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global --list
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+user.name=Raghuram Srigiris
+user.email=129198300+Srigiriraja@users.noreply.github.com
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global user,name "Simpleram"
+error: key does not contain a section: user,name
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global user.name "Simpleram"
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global user.email "Simpleram"
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global --list
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+user.name=Simpleram
+user.email=Simpleram
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global user.name "Srigiriraja"
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --user.email "raghuram147y@gmail.com"
+error: unknown option `user.email'
+usage: git config list [<file-option>] [<display-option>] [--includes]
+   or: git config get [<file-option>] [<display-option>] [--includes] [--all] [-
+-regexp] [--value=<value>] [--fixed-value] [--default=<default>] <name>
+   or: git config set [<file-option>] [--type=<type>] [--all] [--value=<value>]
+[--fixed-value] <name> <value>
+   or: git config unset [<file-option>] [--all] [--value=<value>] [--fixed-value
+] <name>
+   or: git config rename-section [<file-option>] <old-name> <new-name>
+   or: git config remove-section [<file-option>] <name>
+   or: git config edit [<file-option>]
+   or: git config [<file-option>] --get-colorbool <name> [<stdout-is-tty>]
+
+Config file location
+    --[no-]global         use global config file
+    --[no-]system         use system config file
+    --[no-]local          use repository config file
+    --[no-]worktree       use per-worktree config file
+    -f, --[no-]file <file>
+                          use given config file
+    --[no-]blob <blob-id> read config from given blob object
+
+Action
+    --get                 get value: name [<value-pattern>]
+    --get-all             get all values: key [<value-pattern>]
+    --get-regexp          get values for regexp: name-regex [<value-pattern>]
+    --get-urlmatch        get value specific for the URL: section[.var] URL
+    --replace-all         replace all matching variables: name value [<value-pat
+tern>]
+    --add                 add a new variable: name value
+    --unset               remove a variable: name [<value-pattern>]
+    --unset-all           remove all matches: name [<value-pattern>]
+    --rename-section      rename section: old-name new-name
+    --remove-section      remove a section: name
+    -l, --list            list all
+    -e, --edit            open an editor
+    --get-color           find the color configured: slot [<default>]
+    --get-colorbool       find the color setting: slot [<stdout-is-tty>]
+
+Display options
+    -z, --[no-]null       terminate values with NUL byte
+    --[no-]name-only      show variable names only
+    --[no-]show-origin    show origin of config (file, standard input, blob, com
+mand line)
+    --[no-]show-scope     show scope of config (worktree, local, global, system,
+ command)
+    --[no-]show-names     show config keys in addition to their values
+
+Type
+    -t, --[no-]type <type>
+                          value is given this type
+    --bool                value is "true" or "false"
+    --int                 value is decimal number
+    --bool-or-int         value is --bool or --int
+    --bool-or-str         value is --bool or string
+    --path                value is a path (file or directory name)
+    --expiry-date         value is an expiry date
+
+Other
+    --[no-]default <value>
+                          with --get, use default value when missing entry
+    --[no-]comment <value>
+                          human-readable comment string (# will be prepended as
+needed)
+    --[no-]fixed-value    use string equality when comparing values to value pat
+tern
+    --[no-]includes       respect include directives on lookup
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --user.email "raghuram147y@gmail"
+error: unknown option `user.email'
+usage: git config list [<file-option>] [<display-option>] [--includes]
+   or: git config get [<file-option>] [<display-option>] [--includes] [--all] [-
+-regexp] [--value=<value>] [--fixed-value] [--default=<default>] <name>
+   or: git config set [<file-option>] [--type=<type>] [--all] [--value=<value>]
+[--fixed-value] <name> <value>
+   or: git config unset [<file-option>] [--all] [--value=<value>] [--fixed-value
+] <name>
+   or: git config rename-section [<file-option>] <old-name> <new-name>
+   or: git config remove-section [<file-option>] <name>
+   or: git config edit [<file-option>]
+   or: git config [<file-option>] --get-colorbool <name> [<stdout-is-tty>]
+
+Config file location
+    --[no-]global         use global config file
+    --[no-]system         use system config file
+    --[no-]local          use repository config file
+    --[no-]worktree       use per-worktree config file
+    -f, --[no-]file <file>
+                          use given config file
+    --[no-]blob <blob-id> read config from given blob object
+
+Action
+    --get                 get value: name [<value-pattern>]
+    --get-all             get all values: key [<value-pattern>]
+    --get-regexp          get values for regexp: name-regex [<value-pattern>]
+    --get-urlmatch        get value specific for the URL: section[.var] URL
+    --replace-all         replace all matching variables: name value [<value-pat
+tern>]
+    --add                 add a new variable: name value
+    --unset               remove a variable: name [<value-pattern>]
+    --unset-all           remove all matches: name [<value-pattern>]
+    --rename-section      rename section: old-name new-name
+    --remove-section      remove a section: name
+    -l, --list            list all
+    -e, --edit            open an editor
+    --get-color           find the color configured: slot [<default>]
+    --get-colorbool       find the color setting: slot [<stdout-is-tty>]
+
+Display options
+    -z, --[no-]null       terminate values with NUL byte
+    --[no-]name-only      show variable names only
+    --[no-]show-origin    show origin of config (file, standard input, blob, com
+mand line)
+    --[no-]show-scope     show scope of config (worktree, local, global, system,
+ command)
+    --[no-]show-names     show config keys in addition to their values
+
+Type
+    -t, --[no-]type <type>
+                          value is given this type
+    --bool                value is "true" or "false"
+    --int                 value is decimal number
+    --bool-or-int         value is --bool or --int
+    --bool-or-str         value is --bool or string
+    --path                value is a path (file or directory name)
+    --expiry-date         value is an expiry date
+
+Other
+    --[no-]default <value>
+                          with --get, use default value when missing entry
+    --[no-]comment <value>
+                          human-readable comment string (# will be prepended as
+needed)
+    --[no-]fixed-value    use string equality when comparing values to value pat
+tern
+    --[no-]includes       respect include directives on lookup
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global user.email "raghuram147y@gmail"
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global list
+error: key does not contain a section: list
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global --list
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+user.name=Srigiriraja
+user.email=raghuram147y@gmail
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --list
+diff.astextplain.textconv=astextplain
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+http.sslbackend=openssl
+http.sslcainfo=C:/Program Files/Git/mingw64/etc/ssl/certs/ca-bundle.crt
+core.autocrlf=true
+core.fscache=true
+core.symlinks=false
+pull.rebase=false
+credential.helper=manager
+credential.https://dev.azure.com.usehttppath=true
+init.defaultbranch=master
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+user.name=Srigiriraja
+user.email=raghuram147y@gmail
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global user,name "Simpleram"
+error: key does not contain a section: user,name
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global user.name "Simpleram"
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global user.email "Simpleram"
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global --list
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+user.name=Simpleram
+user.email=Simpleram
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global user,name "Simpleram"
+error: key does not contain a section: user,name
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global user.name "Simpleram"
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global user.email "Simpleram"
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global --list
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+user.name=Simpleram
+user.email=Simpleram
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --global user.name "Srigiriraja"
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --user.email "raghuram147y@gmail.com"
+error: unknown option `user.email'
+usage: git config list [<file-option>] [<display-option>] [--includes]
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~y@gmail"on lookupalues to value pat
+bash: Srigirirajaraghuram@DESKTOP-7QG8BH0: command not found
+bash: $: command not found
+
+bash: Srigirirajaraghuram@DESKTOP-7QG8BH0: command not found
+bash: $: command not found
+bash: error:: command not found
+bash: Srigirirajaraghuram@DESKTOP-7QG8BH0: command not found
+bash: $: command not found
+bash: Srigirirajaraghuram@DESKTOP-7QG8BH0: command not found
+bash: $: command not found
+bash: Srigirirajaraghuram@DESKTOP-7QG8BH0: command not found
+bash: $: command not found
+bash: filter.lfs.clean=git-lfs: command not found
+bash: filter.lfs.smudge=git-lfs: command not found
+bash: filter.lfs.process=git-lfs: command not found
+bash: filter.lfs.required=true: command not found
+bash: user.name=Simpleram: command not found
+
+bash: user.email=Simpleram: command not found
+bash: Srigirirajaraghuram@DESKTOP-7QG8BH0: command not found
+bash: $: command not found
+bash: Srigirirajaraghuram@DESKTOP-7QG8BH0: command not found
+bash: $: command not found
+bash: error:: command not found
+bash: Srigirirajaraghuram@DESKTOP-7QG8BH0: command not found
+bash: $: command not found
+bash: Srigirirajaraghuram@DESKTOP-7QG8BH0: command not found
+bash: $: command not found
+bash: Srigirirajaraghuram@DESKTOP-7QG8BH0: command not found
+bash: $: command not found
+bash: filter.lfs.clean=git-lfs: command not found
+bash: filter.lfs.smudge=git-lfs: command not found
+bash: filter.lfs.process=git-lfs: command not found
+bash: filter.lfs.required=true: command not found
+bash: user.name=Simpleram: command not found
+bash: user.email=Simpleram: command not found
+bash: Srigirirajaraghuram@DESKTOP-7QG8BH0: command not found
+bash: $: command not found
+bash: Srigirirajaraghuram@DESKTOP-7QG8BH0: command not found
+bash: $: command not found
+> git config --list
+> ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git global --list
+git: 'global' is not a git command. See 'git --help'.
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ git config --list
+diff.astextplain.textconv=astextplain
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+http.sslbackend=openssl
+http.sslcainfo=C:/Program Files/Git/mingw64/etc/ssl/certs/ca-bundle.crt
+core.autocrlf=true
+core.fscache=true
+core.symlinks=false
+pull.rebase=false
+credential.helper=manager
+credential.https://dev.azure.com.usehttppath=true
+init.defaultbranch=master
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+user.name=Srigiriraja
+user.email=raghuram147y@gmail
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ =true
+user.name=Srigiriraja
+user.email=raghuram147y@gmail
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+
+Display all 53 possibilities? (y or n)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ =true
+user.name=Srigiriraja
+user.email=raghuram147y@gmail
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+bash: =true: command not found
+bash: user.name=Srigiriraja: command not found
+bash: user.email=raghuram147y@gmail: command not found
+bash: Srigirirajaraghuram@DESKTOP-7QG8BH0: command not found
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$
+
+Git WorkFlow / stages 
+
+By using git managing our projects in different versions , code tacking , there is procedure git will not track directly , we need some basic basic commads.
+
+Git workflow 
+Local 
+Working directly ->(cmd : git init git add) staging / Index -> (cmd:Git commit) Local repository .
+
+Then from local machine same folder which we have worked on those updates / sends / move to  remote cloud for back up / tracking / working on changes / RBAC for working on progress in real time 
+
+Cloud Repository (cmd : Git push) - Github , Gitlab , Bitbucket etc 
+
+In real time we should not be there form beginning of the project or completely configured from scratch we should come in middle then , some one who worked on before will stores the project in cloud repo then we have to pull it to our local machine the need to stsrt work on 
+For that purpose 
+Git Clone 
+
+Git commands 
+Git status
+Gt pull 
+Git init 
+git add 
+git commit -m "messge "
+git log 
+git push 
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ /c/T19/JavaProject
+bash: /c/T19/JavaProject: Is a directory
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ cd  c
+bash: cd: c: No such file or directory
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ cd
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ ld
+bash: ld: command not found
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ ls
+'3D Objects'/         Downloads/               NTUSER.DAT{53b39e88-18c4-11ea-a811-000d3aa4692b}.TM.blf                                        Searches/             docker_volumes/
+ ADO/                 Favorites/               NTUSER.DAT{53b39e88-18c4-11ea-a811-000d3aa4692b}.TMContainer00000000000000000001.regtrans-ms   SendTo@               files/
+ AppData/             IntelGraphicsProfiles/   NTUSER.DAT{53b39e88-18c4-11ea-a811-000d3aa4692b}.TMContainer00000000000000000002.regtrans-ms  'Start Menu'@          ntuser.dat.LOG1
+'Application Data'@   Links/                   NetHood@                                                                                       Templates@            ntuser.dat.LOG2
+ Contacts/           'Local Settings'@         OneDrive/                                                                                      Videos/               ntuser.ini
+ Cookies@             Music/                   PrintHood@                                                                                    'VirtualBox VMs'/      source/
+ Dockerfiles/        'My Documents'@           Recent@                                                                                        docker/
+ Documents/           NTUSER.DAT              'Saved Games'/                                                                                  docker-compose-app/
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ c/T19/JavaProject (master)
+bash: syntax error near unexpected token `master'
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ cd c/T19/JavaProject (master)
+bash: syntax error near unexpected token `('
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ cd c/T19/JavaProject
+bash: cd: c/T19/JavaProject: No such file or directory
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 ~
+$ cd ..
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/Users
+$ ls
+'All Users'@   Default/  'Default User'@   Public/   Srigirirajaraghuram/   desktop.ini
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/Users
+$ cd ..
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c
+$ ls
+'$Recycle.Bin'/                      Class_Code/                DumpStack.log       OneDriveTemp/           ProgramData/                  Terraform/     Windows.old.000/   kubectl/
+'$WINRE_BACKUP_PARTITION.MARKER'     Dell/                      DumpStack.log.tmp   PerfLogs/               Recovery/                     Users/         bootTel.dat        pagefile.sys
+'$WinREAgent'/                      'DevOps Resumes'/           Intel/             'Program Files'/        'System Volume Information'/   Windows/       hiberfil.sys       swapfile.sys
+ AzureAdminManualTaskstoTerraform/  'Documents and Settings'@   MSOCache/          'Program Files (x86)'/   T19/                          Windows.old/   inetpub/          '~ai-guardiandocs'/
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c
+$ cd T19
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19 (main)
+$ ls
+Ansible/  Docker/  DotnetProject/  JavaProject/  Kubernetes/  README.md  Terraform/  TravelApplicationproject/
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19 (main)
+$ cd ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19 (main)
+$ cd JavaProject
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ ls
+mvn_sample_app/
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ ls
+mvn_sample_app/
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ cd mvn_sample_app/
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 5/9)
+$ ls
+README.md  mvnw*  mvnw.cmd  package.json  pom.xml  src/  styles/  tailwind.config.js  yarn.lock
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 5/9)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 5/9)
+$ cd ..
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ git init
+Reinitialized existing Git repository in C:/T19/JavaProject/.git/
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   mvn_sample_app
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+  (commit or discard the untracked or modified content in submodules)
+        modified:   mvn_sample_app (new commits, modified content)
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ git commit -m "This java project is commiting intially only using the basic commands repository needs to be created ai-guardian (Public) and pushed to remote repo"
+[master (root-commit) 9263d89] This java project is commiting intially only using the basic commands repository needs to be created ai-guardian (Public) and pushed to remote repo
+ 1 file changed, 1 insertion(+)
+ create mode 160000 mvn_sample_app
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 6/9)
+$ git status
+interactive rebase in progress; onto 6014bd9
+Last commands done (6 commands done):
+   pick ebd219d feat: add the readme
+   pick a2977b1 feat: build the docker image
+  (see more in file .git/rebase-merge/done)
+Next commands to do (3 remaining commands):
+   pick d894616 feat: delete  dockerfile
+   pick cb7aa97 chore: standalone css generation
+  (use "git rebase --edit-todo" to view and edit)
+You are currently rebasing branch 'main' on '6014bd9'.
+  (fix conflicts and then run "git rebase --continue")
+  (use "git rebase --skip" to skip this patch)
+  (use "git rebase --abort" to check out the original branch)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   Dockerfile
+
+Unmerged paths:
+  (use "git restore --staged <file>..." to unstage)
+  (use "git add <file>..." to mark resolution)
+        both modified:   README.md
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 6/9)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 6/9)
+$ ls
+Dockerfile  README.md  mvnw*  mvnw.cmd  package.json  pom.xml  src/  styles/  tailwind.config.js  yarn.lock
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 6/9)
+$ cd README.md
+bash: cd: README.md: Not a directory
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 6/9)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 6/9)
+$ cd README.md
+bash: cd: README.md: Not a directory
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 6/9)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 6/9)
+$ code README.md
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 6/9)
+$ cd ..
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   mvn_sample_app
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+  (commit or discard the untracked or modified content in submodules)
+        modified:   mvn_sample_app (new commits, modified content)
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ git commit -m "This java project is commiting intially only using the basic commands repository needs to be created ai-guardian (Public) and pushed to remote repo"
+[master 3b76578] This java project is commiting intially only using the basic commands repository needs to be created ai-guardian (Public) and pushed to remote repo
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+  (commit or discard the untracked or modified content in submodules)
+        modified:   mvn_sample_app (new commits, modified content)
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ git add mvn_sample_app
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ git commit -m "This java project is commiting intially only using the basic commands repository needs to be created ai-guardian (Public) and pushed to remote repo"
+[master 26157ab] This java project is commiting intially only using the basic commands repository needs to be created ai-guardian (Public) and pushed to remote repo
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+  (commit or discard the untracked or modified content in submodules)
+        modified:   mvn_sample_app (modified content)
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ git commi t-a
+git: 'commi' is not a git command. See 'git --help'.
+
+The most similar commands are
+        commit
+        column
+        config
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ git commit -a
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+  (commit or discard the untracked or modified content in submodules)
+        modified:   mvn_sample_app (modified content)
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ git log
+commit 26157abdedd953e59f0410da599a75e325d64b98 (HEAD -> master)
+Author: Srigiriraja <raghuram147y@gmail>
+Date:   Mon Jul 14 15:03:04 2025 +0530
+
+    This java project is commiting intially only using the basic commands repository needs to be created ai-guardian (Public) and pushed to remote repo
+
+commit 3b7657836cdf20a6d81462b536cbb98b513f791f
+Author: Srigiriraja <raghuram147y@gmail>
+Date:   Mon Jul 14 15:02:21 2025 +0530
+
+    This java project is commiting intially only using the basic commands repository needs to be created ai-guardian (Public) and pushed to remote repo
+
+commit 9263d89680c029da250305095dd960bd47795c7d
+Author: Srigiriraja <raghuram147y@gmail>
+Date:   Mon Jul 14 13:17:31 2025 +0530
+
+    This java project is commiting intially only using the basic commands repository needs to be created ai-guardian (Public) and pushed to remote repo
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+
+
+
+[detached HEAD 4fc5f25] feat: build the docker image
+ Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+ 2 files changed, 46 insertions(+)
+ create mode 100644 Dockerfile
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+error: could not apply d894616... feat: delete  dockerfile
+hint: Resolve all conflicts manually, mark them as resolved with
+hint: "git add/rm <conflicted_files>", then run "git rebase --continue".
+hint: You can instead skip this commit: run "git rebase --skip".
+hint: To abort and get back to the state before "git rebase", run "git rebase --abort".
+hint: Disable this message with "git config advice.mergeConflict false"
+Could not apply d894616... feat: delete  dockerfile
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 7/9)
+$ git status
+interactive rebase in progress; onto 6014bd9
+Last commands done (7 commands done):
+   pick a2977b1 feat: build the docker image
+   pick d894616 feat: delete  dockerfile
+  (see more in file .git/rebase-merge/done)
+Next commands to do (2 remaining commands):
+   pick cb7aa97 chore: standalone css generation
+   pick a526a29 Add files via upload
+  (use "git rebase --edit-todo" to view and edit)
+You are currently rebasing branch 'main' on '6014bd9'.
+  (fix conflicts and then run "git rebase --continue")
+  (use "git rebase --skip" to skip this patch)
+  (use "git rebase --abort" to check out the original branch)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        deleted:    Dockerfile
+
+Unmerged paths:
+  (use "git restore --staged <file>..." to unstage)
+  (use "git add <file>..." to mark resolution)
+        both modified:   README.md
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 7/9)
+
+[detached HEAD 4fc5f25] feat: build the docker image
+ Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+ 2 files changed, 46 insertions(+)
+ create mode 100644 Dockerfile
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+error: could not apply d894616... feat: delete  dockerfile
+hint: Resolve all conflicts manually, mark them as resolved with
+hint: "git add/rm <conflicted_files>", then run "git rebase --continue".
+hint: You can instead skip this commit: run "git rebase --skip".
+hint: To abort and get back to the state before "git rebase", run "git rebase --abort".
+hint: Disable this message with "git config advice.mergeConflict false"
+Could not apply d894616... feat: delete  dockerfile
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main|REBASE 7/9)
+$ git status
+interactive rebase in progress; onto 6014bd9
+Last commands done (7 commands done):
+   pick a2977b1 feat: build the docker image
+   pick d894616 feat: delete  dockerfile
+  (see more in file .git/rebase-merge/done)
+Next commands to do (2 remaining commands):
+   pick cb7aa97 chore: standalone css generation
+   pick a526a29 Add files via upload
+  (use "git rebase --edit-todo" to view and edit)
+You are currently rebasing branch 'main' on '6014bd9'.
+  (fix conflicts and then run "git rebase --continue")
+^Cck cb7aa97 chore: standalone css generationoriginal branch)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git status
+On branch main
+Your branch and 'origin/main' have diverged,
+and have 10 and 10 different commits each, respectively.
+  (use "git pull" if you want to integrate the remote branch with yours)
+
+nothing to commit, working tree clean
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git log
+commit 61ec15cbb2676c73aed04b7980cec13295ad0974 (HEAD -> main)
+Author: nextopsvideos <94779550+nextopsvideos@users.noreply.github.com>
+Date:   Thu Jun 20 18:36:01 2024 +0700
+
+    Add files via upload
+
+commit 5cce1b6928a3b397e40886bc547406a559459d63
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sat Jul 15 13:32:32 2023 +0200
+
+    chore: standalone css generation
+
+commit 452794d28753b42fff39b53338a0c1bdedc027f0
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sun May 15 15:35:35 2022 +0200
+
+    feat: delete  dockerfile
+
+commit 4fc5f25ce0eca57829b8906fa5d4e44fc6196512
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sun May 15 14:34:06 2022 +0200
+
+    feat: build the docker image
+
+commit 10c51ebf71563b3441ea2a7147c3c2a2daf4384e
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sun Apr 24 15:35:05 2022 +0200
+
+    feat: add the readme
+
+commit 445d25e7181245de33b5829362c85650bdc54645
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sun Apr 24 15:17:52 2022 +0200
+
+    feat: minor improvements of the application
+
+commit b06948c6ede604362c3e5dd7a6c50b2981272ddc
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sun Apr 24 13:19:43 2022 +0200
+
+    feat: write dto and the ui
+
+commit 5709ad9eefb02c635df374e0302b4147ac8943e6
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sat Apr 23 22:00:30 2022 +0200
+
+    feat: build the form page
+
+commit 7c6d44a00db854a8278f4df9072bb690f31c4c44
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sat Apr 23 11:43:30 2022 +0200
+
+    feat: initial commit
+
+commit 6014bd9b77bc9637c26620bb9ebbc24b0f1d7693
+Author: Raghuram Srigiri <raghuram147y@gmail.com>
+Date:   Tue Mar 11 18:05:39 2025 +0000
+
+    Initial commit
+(END)
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git status
+On branch main
+Your branch and 'origin/main' have diverged,
+and have 10 and 10 different commits each, respectively.
+  (use "git pull" if you want to integrate the remote branch with yours)
+
+nothing to commit, working tree clean
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git remote -v
+origin  https://gitlab.com/dev6982052/bmi_mavenapp.git (fetch)
+origin  https://gitlab.com/dev6982052/bmi_mavenapp.git (push)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git pull --rebase
+remote: The project you were looking for could not be found or you don't have permission to view it.
+fatal: repository 'https://gitlab.com/dev6982052/bmi_mavenapp.git/' not found
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git remote add origin https://github.com/Srigiriraja/ai-guardian.git
+error: remote origin already exists.
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git remote remove origin
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git remote -v
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git remote add origin https://github.com/Srigiriraja/ai-guardian.git
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git remote -v
+origin  https://github.com/Srigiriraja/ai-guardian.git (fetch)
+origin  https://github.com/Srigiriraja/ai-guardian.git (push)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git push --force origin main
+info: please complete authentication in your browser...
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git push --force origin main
+Enumerating objects: 123, done.
+Counting objects: 100% (123/123), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (71/71), done.
+Writing objects: 100% (123/123), 97.12 KiB | 2.49 MiB/s, done.
+Total 123 (delta 24), reused 96 (delta 11), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (24/24), done.
+To https://github.com/Srigiriraja/ai-guardian.git
+ + 31d8892...61ec15c main -> main (forced update)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git status
+On branch main
+nothing to commit, working tree clean
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$
+
+Issues and Fixes
+Rebase Conflict (main|REBASE 7/9):
+Issue: Conflict in README.md during rebase (d894616: feat: delete dockerfile conflicted with a2977b1: feat: build the docker image).
+Resolution: You resolved it, and the rebase completed, returning to main branch with a clean state.
+Note: The Dockerfile was deleted in the rebase, and README.md conflicts were fixed (likely manually or skipped).
+GitLab Remote Failure:
+Issue: git pull --rebase failed for https://gitlab.com/dev6982052/bmi_mavenapp.git (“repository not found”).
+Resolution: You removed the invalid remote (git remote remove origin) and added https://github.com/Srigiriraja/ai-guardian.
+Force Push:
+Action: Used git push --force origin main to overwrite the remote, resolving divergence (Your branch and 'origin/main' have diverged, and have 10 and 10 different commits each).
+Note: Force push was appropriate here but use cautiously in team settings to avoid overwriting others’ work.
+Prompt Errors:
+Issue: Commands like =true or user.name=Srigiriraja were run as input.
+Fix: These were outputs from git config --list. Avoid copying outputs as commands.
+
+
+++ create and configure access token PAT - done and created 
+++ Git Clone - cloing a public AKS basline project to VS code and pushing to out repository
+URL : https://github.com/Srigiriraja/ai-guardian
+cloned URL to my local machine : https://github.com/mspnp/aks-baseline
+++ We can provide access for others to works on git repo 
+- Access Tokens 
+- Collaberators 
+++ Created - barnches and pushed it in remote repo 
+
+C:\T19\aks-baseline>git clone https://github.com/mspnp/aks-baseline.git
+Cloning into 'aks-baseline'...
+remote: Enumerating objects: 2256, done.
+remote: Counting objects: 100% (262/262), done.
+remote: Compressing objects: 100% (148/148), done.
+remote: Total 2256 (delta 197), reused 117 (delta 114), pack-reused 1994 (from 3)
+Receiving objects: 100% (2256/2256), 4.28 MiB | 413.00 KiB/s, done.
+Resolving deltas: 100% (1469/1469), done.
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git branch
+* main
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git checkout main
+Already on 'main'
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git checkout -b dev
+Switched to a new branch 'dev'
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (dev)
+$ git branch
+* dev
+  main
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (dev)
+$ git checkout dev
+Already on 'dev'
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (dev)
+$ git checkout -b feature/aks-module
+Switched to a new branch 'feature/aks-module'
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/aks-module)
+$ git branch
+  dev
+* feature/aks-module
+  main
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/aks-module)
+$ touch aks.tf               # Create a sample Terraform file
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/aks-module)
+$ git add aks.tf
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/aks-module)
+$ git commit -m "feat: added base aks.tf for AKS setup"
+[feature/aks-module c31350e] feat: added base aks.tf for AKS setup
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 aks.tf
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/aks-module)
+$ git push origin -u feature/aks-module
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/aks-module)
+$ git push -u origin feature/aks-module
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 291 bytes | 97.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+remote:
+remote: Create a pull request for 'feature/aks-module' on GitHub by visiting:
+remote:      https://github.com/Srigiriraja/ai-guardian/pull/new/feature/aks-module
+remote:
+To https://github.com/Srigiriraja/ai-guardian.git
+ * [new branch]      feature/aks-module -> feature/aks-module
+branch 'feature/aks-module' set up to track 'origin/feature/aks-module'.
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/aks-module)
+$ git status
+On branch feature/aks-module
+Your branch is up to date with 'origin/feature/aks-module'.
+
+nothing to commit, working tree clean
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/aks-module)
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/aks-module)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/aks-module)
+$ git checkout dev
+Switched to branch 'dev'
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (dev)
+$ git checkout feauture/aks-module
+error: pathspec 'feauture/aks-module' did not match any file(s) known to git
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (dev)
+$ git checkout feature/aks-module
+Switched to branch 'feature/aks-module'
+Your branch is up to date with 'origin/feature/aks-module'.
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/aks-module)
+$ gitcheck out dev
+bash: gitcheck: command not found
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/aks-module)
+$ git checkout dev
+Switched to branch 'dev'
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (dev)
+$ git checkout -b feature/ci
+Switched to a new branch 'feature/ci'
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/ci)
+$ git branch
+  dev
+  feature/aks-module
+* feature/ci
+  main
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/ci)
+$ mkdir -p .github/workflows
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/ci)
+$ touch .github/workflows/deploy.yml
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/ci)
+$ git add .
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/ci)
+$ git commit -m "feat: add GitHub Actions workflow for CI/CD"
+[feature/ci f013314] feat: add GitHub Actions workflow for CI/CD
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 .github/workflows/deploy.yml
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/ci)
+$ git push -u origin ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/ci)
+$ git push -u origin feature/ci
+Enumerating objects: 6, done.
+Counting objects: 100% (6/6), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (5/5), 389 bytes | 129.00 KiB/s, done.
+Total 5 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+remote:
+remote: Create a pull request for 'feature/ci' on GitHub by visiting:
+remote:      https://github.com/Srigiriraja/ai-guardian/pull/new/feature/ci
+remote:
+To https://github.com/Srigiriraja/ai-guardian.git
+ * [new branch]      feature/ci -> feature/ci
+branch 'feature/ci' set up to track 'origin/feature/ci'.
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/ci)
+$ git status
+On branch feature/ci
+Your branch is up to date with 'origin/feature/ci'.
+
+nothing to commit, working tree clean
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/ci)
+$ git log
+commit f013314fc026f6958cfb1bb9a7dd90c0feb2bfee (HEAD -> feature/ci, origin/feature/ci)
+Author: Srigiriraja <raghuram147y@gmail>
+Date:   Mon Jul 14 20:24:04 2025 +0530
+
+    feat: add GitHub Actions workflow for CI/CD
+
+commit 61ec15cbb2676c73aed04b7980cec13295ad0974 (origin/main, main, dev)
+Author: nextopsvideos <94779550+nextopsvideos@users.noreply.github.com>
+Date:   Thu Jun 20 18:36:01 2024 +0700
+
+    Add files via upload
+
+commit 5cce1b6928a3b397e40886bc547406a559459d63
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sat Jul 15 13:32:32 2023 +0200
+
+    chore: standalone css generation
+
+commit 452794d28753b42fff39b53338a0c1bdedc027f0
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sun May 15 15:35:35 2022 +0200
+
+    feat: delete  dockerfile
+
+commit 4fc5f25ce0eca57829b8906fa5d4e44fc6196512
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sun May 15 14:34:06 2022 +0200
+
+    feat: build the docker image
+
+commit 10c51ebf71563b3441ea2a7147c3c2a2daf4384e
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sun Apr 24 15:35:05 2022 +0200
+
+    feat: add the readme
+
+commit 445d25e7181245de33b5829362c85650bdc54645
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sun Apr 24 15:17:52 2022 +0200
+
+    feat: minor improvements of the application
+
+commit b06948c6ede604362c3e5dd7a6c50b2981272ddc
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sun Apr 24 13:19:43 2022 +0200
+
+    feat: write dto and the ui
+
+commit 5709ad9eefb02c635df374e0302b4147ac8943e6
+Author: Eric Cabrel TIOGO <tericcabrel@yahoo.com>
+Date:   Sat Apr 23 22:00:30 2022 +0200
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/ci)
+$
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/ci)
+$
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$ git branch
+  dev
+  feature/aks-module
+  feature/ci
+* feature/dev
+  main
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/ci)
+$ git checkout -b future - dev
+fatal: Cannot update paths and switch to branch 'future' at the same time.
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/ci)
+$ git checkout dev
+Switched to branch 'dev'
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (dev)
+$ git checkout -b feature/dev
+Switched to a new branch 'feature/dev'
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$ git branch
+  dev
+  feature/aks-module
+  feature/ci
+* feature/dev
+  main
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$ git add .
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$ git commit -m "cloned aks-base line project and developing for K8s and terraform automation to ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$ git commit -m "cloned aks-base line project and developing for k8s and terraform automation to newly created feature/dev
+>
+>
+> ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$ git commit -m "cloned aks-base line project and developing for k8s and terraform automation to newly created feature/dev
+
+> git push -u origin ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$ git push -u origin feature/dev
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+remote:
+remote: Create a pull request for 'feature/dev' on GitHub by visiting:
+remote:      https://github.com/Srigiriraja/ai-guardian/pull/new/feature/dev
+remote:
+To https://github.com/Srigiriraja/ai-guardian.git
+ * [new branch]      feature/dev -> feature/dev
+branch 'feature/dev' set up to track 'origin/feature/dev'.
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$ git remote -v
+origin  https://github.com/Srigiriraja/ai-guardian.git (fetch)
+origin  https://github.com/Srigiriraja/ai-guardian.git (push)
+
+
+++++++++++++++++++++++
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19 (main)
+$ ls
+Ansible/  DotnetProject/  Kubernetes/  Terraform/                 aks-baseline/
+Docker/   JavaProject/    README.md    TravelApplicationproject/
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19 (main)
+$ cd JavaProject
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ ls
+mvn_sample_app/
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject (master)
+$ cd mvn_sample_app
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$ ls
+Dockerfile  Dockerfile1  Dockerfile2  README.md  mvnw*  mvnw.cmd  package.json  pom.xml  src/  styles/  tailwind.config.js  yarn.lock
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$ git branch
+  dev
+  feature/aks-module
+  feature/ci
+* feature/dev
+  main
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (feature/dev)
+$ git checkout main
+Switched to branch 'main'
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$ git branch
+  dev
+  feature/aks-module
+  feature/ci
+  feature/dev
+* main
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/JavaProject/mvn_sample_app (main)
+$
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git clone https://github.com/mspnp/aks-baseline.git
+Cloning into 'aks-baseline'...
+remote: Enumerating objects: 2256, done.
+remote: Counting objects: 100% (261/261), done.
+remote: Compressing objects: 100% (148/148), done.
+remote: Total 2256 (delta 194), reused 116 (delta 113), pack-reused 1995 (from 3
+)
+Receiving objects: 100% (2256/2256), 4.28 MiB | 114.00 KiB/s, done.
+Resolving deltas: 100% (1466/1466), done.
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        ../DotnetProject/
+        ../JavaProject/
+        ../TravelApplicationproject/
+        ./
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git add aks-baseline
+warning: adding embedded git repository: aks-baseline/aks-baseline
+hint: You've added another git repository inside your current repository.
+hint: Clones of the outer repository will not contain the contents of
+hint: the embedded repository and will not know how to obtain it.
+hint: If you meant to add a submodule, use:
+hint:
+hint:   git submodule add <url> aks-baseline/aks-baseline
+hint:
+hint: If you added this path by mistake, you can remove it from the
+hint: index with:
+hint:
+hint:   git rm --cached aks-baseline/aks-baseline
+hint:
+hint: See "git help submodule" for more information.
+hint: Disable this message with "git config advice.addEmbeddedRepo false"
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git branch
+* main
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git remote -v
+origin  https://github.com/nextopsvideos/T19.git (fetch)
+origin  https://github.com/nextopsvideos/T19.git (push)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git remote remove origin
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git remote -v
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git remote add https://github.com/Srigiriraja/ai-guardian.git
+usage: git remote add [<options>] <name> <url>
+
+    -f, --[no-]fetch      fetch the remote branches
+    --[no-]tags           import all tags and associated objects when fetching
+                          or do not fetch any tag at all (--no-tags)
+    -t, --[no-]track <branch>
+                          branch(es) to track
+    -m, --[no-]master <branch>
+                          master branch
+    --[no-]mirror[=(push|fetch)]
+                          set up remote as a mirror to push to or fetch from
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git remote add origin https://github.com/Srigiriraja/ai-guardian.git
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git remote -v
+origin  https://github.com/Srigiriraja/ai-guardian.git (fetch)
+origin  https://github.com/Srigiriraja/ai-guardian.git (push)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git remote -v
+origin  https://github.com/Srigiriraja/ai-guardian.git (fetch)
+origin  https://github.com/Srigiriraja/ai-guardian.git (push)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git branch
+* main
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   aks-baseline
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        ../DotnetProject/
+        ../JavaProject/
+        ../TravelApplicationproject/
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git add .
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git staus
+git: 'staus' is not a git command. See 'git --help'.
+
+The most similar command is
+        status
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   aks-baseline
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        ../DotnetProject/
+        ../JavaProject/
+        ../TravelApplicationproject/
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git branch
+* main
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ ajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git remote -v
+origin  https://github.com/Srigiriraja/ai-guardian.git (fetch)
+origin  https://github.com/Srigiriraja/ai-guardian.git (push)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git remote -v
+origin  https://github.com/Srigiriraja/ai-guardian.git (fetch)
+origin  https://github.com/Srigiriraja/ai-guardian.git (push)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git branch
+* main
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   aks-baseline
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        ../DotnetProject/
+        ../JavaProject/
+        ../TravelApplicationproject/
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git add .
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git staus
+git: 'staus' is not a git command. See 'git --help'.
+
+The most similar command is
+        status
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   aks-baseline
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        ../DotnetProject/
+        ../JavaProject/
+$rigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (main)
+$ git init
+Initialized empty Git repository in C:/T19/aks-baseline/.git/
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        aks-baseline/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git add
+Nothing specified, nothing added.
+hint: Maybe you wanted to say 'git add .'?
+hint: Disable this message with "git config advice.addEmptyPathspec false"
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git add .
+warning: adding embedded git repository: aks-baseline
+hint: You've added another git repository inside your current repository.
+hint: Clones of the outer repository will not contain the contents of
+hint: the embedded repository and will not know how to obtain it.
+hint: If you meant to add a submodule, use:
+hint:
+hint:   git submodule add <url> aks-baseline
+hint:
+hint: If you added this path by mistake, you can remove it from the
+hint: index with:
+hint:
+hint:   git rm --cached aks-baseline
+hint:
+hint: See "git help submodule" for more information.
+hint: Disable this message with "git config advice.addEmbeddedRepo false"
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote -v
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote add origin https://github.com/Srigiriraja/Integrations.git
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote -v
+origin  https://github.com/Srigiriraja/Integrations.git (fetch)
+origin  https://github.com/Srigiriraja/Integrations.git (push)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ got add .
+bash: got: command not found
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git add .
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git branch
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git commit -m "cloned this code from gitlab and implementing aks in future"
+[master (root-commit) 31bf28c] cloned this code from gitlab and implementing aks in future
+ 1 file changed, 1 insertion(+)
+ create mode 160000 aks-baseline
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git push -u origin main
+error: src refspec main does not match any
+error: failed to push some refs to 'https://github.com/Srigiriraja/Integrations.git'
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git push origin -u master
+Enumerating objects: 2, done.
+Counting objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 236 bytes | 236.00 KiB/s, done.
+Total 2 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+remote:
+remote: Create a pull request for 'master' on GitHub by visiting:
+remote:      https://github.com/Srigiriraja/Integrations/pull/new/master
+remote:
+To https://github.com/Srigiriraja/Integrations.git
+ * [new branch]      master -> master
+branch 'master' set up to track 'origin/master'.
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git branch
+* master
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote -v
+origin  https://github.com/Srigiriraja/Integrations.git (fetch)
+origin  https://github.com/Srigiriraja/Integrations.git (push)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote -v
+origin  https://github.com/Srigiriraja/Integrations.git (fetch)
+origin  https://github.com/Srigiriraja/Integrations.git (push)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote add ^[[200~Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+bash: syntax error near unexpected token `('
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote -v
+origin  https://github.com/Srigiriraja/Integrations.git (fetch)
+origin  https://github.com/Srigiriraja/Integrations.git (push)
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ $ git branch
+bash: $: command not found
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ * master
+bash: aks-baseline: command not found
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+bash: syntax error near unexpected token `('
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ $ git remote -v
+bash: $: command not found
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ origin  https://github.com/Srigiriraja/Integrations.git (fetch)
+bash: syntax error near unexpected token `('
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ origin  https://github.com/Srigiriraja/Integrations.git (push)
+bash: syntax error near unexpected token `('
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+bash: syntax error near unexpected token `('
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ $ ^C
+bash: $: command not found
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+bash: syntax error near unexpected token `('
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ $ ^C
+bash: $: command not found
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+bash: syntax error near unexpected token `('
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ $ git
+bash: $: command not found
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote add https://github.com/Srigiriraja/aks-baseline.git
+usage: git remote add [<options>] <name> <url>
+
+    -f, --[no-]fetch      fetch the remote branches
+    --[no-]tags           import all tags and associated objects when fetching
+                          or do not fetch any tag at all (--no-tags)
+    -t, --[no-]track <branch>
+                          branch(es) to track
+    -m, --[no-]master <branch>
+                          master branch
+    --[no-]mirror[=(push|fetch)]
+                          set up remote as a mirror to push to or fetch from
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote add origin https://github.com/Srigiriraja/aks-baseline.git
+error: remote origin already exists.
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git branch
+* master
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote -v
+origin  https://github.com/Srigiriraja/Integrations.git (fetch)
+origin  https://github.com/Srigiriraja/Integrations.git (push)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote remove origin
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote add https://github.com/Srigiriraja/aks-baseline.git
+usage: git remote add [<options>] <name> <url>
+
+    -f, --[no-]fetch      fetch the remote branches
+    --[no-]tags           import all tags and associated objects when fetching
+                          or do not fetch any tag at all (--no-tags)
+    -t, --[no-]track <branch>
+                          branch(es) to track
+    -m, --[no-]master <branch>
+                          master branch
+    --[no-]mirror[=(push|fetch)]
+                          set up remote as a mirror to push to or fetch from
+
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git rmote add origin https://github.com/Srigiriraja/aks-baseline.git
+git: 'rmote' is not a git command. See 'git --help'.
+
+The most similar command is
+        remote
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote add origin https://github.com/Srigiriraja/aks-baseline.git
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git add .
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git commit -m "created a new repo cloned this code from gitlab and implementing aks in future"
+On branch master
+nothing to commit, working tree clean
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git branch
+* master
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git remote -v
+origin  https://github.com/Srigiriraja/aks-baseline.git (fetch)
+origin  https://github.com/Srigiriraja/aks-baseline.git (push)
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git push origin -u master
+Enumerating objects: 2, done.
+Counting objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 236 bytes | 29.00 KiB/s, done.
+Total 2 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+remote:
+remote: Create a pull request for 'master' on GitHub by visiting:
+remote:      https://github.com/Srigiriraja/aks-baseline/pull/new/master
+remote:
+To https://github.com/Srigiriraja/aks-baseline.git
+ * [new branch]      master -> master
+branch 'master' set up to track 'origin/master'.
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git branch
+* master
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git log
+commit 31bf28c20f42c2e4e75190e93a5f3dfedb7cc836 (HEAD -> master, origin/master)
+Author: Srigiriraja <raghuram147y@gmail>
+Date:   Tue Jul 15 12:25:41 2025 +0530
+
+    cloned this code from gitlab and implementing aks in future
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$
+C:\T19\aks-baseline\  →  feature/dev branch of → https://github.com/Srigiriraja/ai-guardian
+# Use PowerShell or cmd to copy files (example)
+Copy-Item -Path "C:\T19\aks-baseline\*" -Destination "C:\T19\JavaProject\mvn_sample_app\k8s-templates\" -Recurse
+You're absolutely right ✅ — Git tracks files within a specific repository folder. That means:
+
+🔒 You cannot push files from another project folder (like C:\T19\aks-baseline) directly into another Git repo (like ai-guardian) unless:
+You copy or move the files into the folder of the destination Git repo (C:\T19\JavaProject\mvn_sample_app).
+
+Or, you add a remote in aks-baseline pointing to the ai-guardian repo and push entire content (not recommended unless repos are aligned).
+Git only works inside its repo folder. To use files from outside, you must bring them inside your target Git folder. There's no cross-folder Git push unless you manually copy files or restructure repositories.
+
+
+++ Git pull vs Git push completed 
+++ Git ignore - if we want any specific file that should be ignore we can acheive ot by using git ignire file , any type of file it is. .gitignore is the file which contains all these rules we should create that.
+test.txt - adding this in to .gitignore file this will ignore that particular file 
+*.txt - starting eith start this will ignores all texts files wich cintans with that specific name 
+temp/ - ending with forward slash will ignore that particulat folder in all levels with resepect to all folders in the project.
+/temp - if we keep same forward slash in the beginning it ignore that particular specific folder in the projec which we want to exclude and ignore.
+!test.txt - knot keeping this specific knot in front of this will exculde all text.txt files with specific pattern in the project but this will only show text.txt file where we put knot in front of that.
+
+++about readme.md file in github 
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+
+++ how to go to previous version of code in git
+$ git log --oneline
+31bf28c (HEAD -> master, origin/master) cloned this code from gitlab and implementing aks in future
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git log --oneline
+31bf28c (HEAD -> master, origin/master) cloned this code from gitlab and implementing aks in future
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ ^C
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline (master)
+$ git checkout 31bf28c
+Note: switching to '31bf28c'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 31bf28c cloned this code from gitlab and implementing aks in future
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline ((31bf28c...))
+$
+++ Git revert vs git reset , soft vs hard rest , reset vs revert 
+Git revert vs git reset  : Both will make us to roll back to older version by using commit id .
+Git revert : git revert commmit id , git revert head , git revert head number head ~ 1 it will go one commmit back , git revert commit id --no-edit , 
+Git reset : Git reset commit id - This will makes whar ever the commit we have give only given commit will be left and rest all will be deleted but code will remains same ,
+ two types soft reset hard rest : git reset soft --commit id , git reset hard --commit id - this hard reset will be deleted everything like code and commit history both , not a recommended way .
+ Not doing practical commands don't have test environment .
+
+ ++ Git branches , git branch -d branch name - to delete the branch , merging branches , merge conflicts and resloing them , Simple One-Line Command to See Conflicts - git diff --name-only --diff-filter=U
+
+ Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline ((31bf28c...))
+$  git diff --name-only --diff-filter=U
+
+Srigirirajaraghuram@DESKTOP-7QG8BH0 MINGW64 /c/T19/aks-baseline ((31bf28c...))
+$
+
+++ Git rebase and commands 
+++ Git pull request - In local repository we can merge two repos if we have but when in comes to remote repository it is not possible to merge both for that purpose we can use pull request to do so.
+++ Created a PR in git hub added contributers and PR with raghuram147y user name 
+Rulesets
+/
+PR For merging to raghuram147y
+Active
+Ruleset updated
+Ruleset Name
+*
+PR For merging to raghuram147y
+Enforcement status
+Bypass list
+Exempt roles, teams, and apps from this ruleset by adding them to the bypass list.
+Bypass list is empty
+Target branches
+Which branches should be matched?
+Branch targeting criteria
+Default
+Applies to 0 targets.
+Targets have changed and branch match list will update on save.
+Rules
+Which rules should be applied?
+Branch rules
+
+Restrict creations
+Only allow users with bypass permission to create matching refs.
+
+Restrict updates
+Only allow users with bypass permission to update matching refs.
+
+Restrict deletions
+Only allow users with bypass permissions to delete matching refs.
+
+Require linear history
+Prevent merge commits from being pushed to matching refs.
+
+Require deployments to succeed
+Choose which environments must be successfully deployed to before refs can be pushed into a ref that matches this rule.
+
+Require signed commits
+Commits pushed to matching refs must have verified signatures.
+
+Require a pull request before merging
+Require all commits be made to a non-target branch and submitted via a pull request before they can be merged.
+Required approvals
+The number of approving reviews that are required before a pull request can be merged.
+
+Dismiss stale pull request approvals when new commits are pushed
+New, reviewable commits pushed will dismiss previous pull request review approvals.
+
+Require review from Code Owners
+Require an approving review in pull requests that modify files that have a designated code owner.
+
+Require approval of the most recent reviewable push
+Whether the most recent reviewable push must be approved by someone other than the person who pushed it.
+
+Require conversation resolution before merging
+All conversations on code must be resolved before a pull request can be merged.
+
+Request pull request review from Copilot
+Automatically request review from Copilot for new pull requests, if the author has access to Copilot code review.
+Allowed merge methods
+When merging pull requests, you can allow any combination of merge commits, squashing, or rebasing. At least one option must be enabled.
+
+Require status checks to pass
+Choose which status checks must pass before the ref is updated. When enabled, commits must first be pushed to another ref where the checks pass.
+
+Block force pushes
+Prevent users with push access from force pushing to refs.
+
+Require code scanning results
+Choose which tools must provide code scanning results before the reference is updated. When configured, code scanning must be enabled and have results for both the commit and the reference being updated.
+
+feat: add GitHub Actions workflow for CI/CD
+f013314
+Merge info
+Review required
+At least 1 approving review is required by reviewers with write access.
+
+Merging is blocked
+New changes require approval from someone other than the last pusher.
+You can also merge this with the command line. 
+
+Raised a PR in srigiriraja git hub and added srigiri147y as a contributer from here review and approved the PR now the merge is degraded
+
+Issue resolved and merge option is enabled working fine.
+
+feat: add GitHub Actions workflow for CI/CD #2
+ Open
+Srigiriraja wants to merge 1 commit into main from feature/ci  
+ Open
+feat: add GitHub Actions workflow for CI/CD
+#2
+Srigiriraja wants to merge 1 commit into main from feature/ci 
++0 −0 
+ Conversation 2
+ Commits 1
+ Checks 0
+ Files changed 1
+Conversation
+Srigiriraja
+Owner
+Srigiriraja commented 12 hours ago
+Created work flows for CI to trigger directly and connected to pipeline
+
+feat: add GitHub Actions workflow for CI/CD
+f013314
+@Srigiriraja
+Owner
+Author
+Srigiriraja commented 10 hours ago
+I have added a contributer need to approve this PR
+
+Srigiri147y
+Srigiri147y approved these changes 4 minutes ago
+Srigiri147y
+Srigiri147y reviewed 1 minute ago
+Collaborator
+Srigiri147y left a comment
+Raised a PR in srigiriraja git hub and added srigiri147y as a contributer from here review and approved the PR now the merge is degraded
+
+Merge info
+Changes approved
+1 approving review by reviewers with write access.
+
+
+No conflicts with base branch
+Merging can be performed automatically.
+
+You can also merge this with the command line. 
+@Srigiriraja
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow our GitHub Community Guidelines.
+ ProTip! Add .patch or .diff to the end of URLs for Git’s plaintext views.
+Reviewers
+@Srigiri147y
+Srigiri147y
+Still in progress?
+Assignees
+No one—
+Labels
+None yet
+Projects
+None yet
+Milestone
+No milestone
+Development
+Successfully merging this pull request may close these issues.
+
+None yet
+
+
+Notifications
+Customize
+You’re receiving notifications because you authored the thread.
+2 participants
+@Srigiriraja
+@Srigiri147y
+
+
+
+ 
+  
+Pull requests list
+
+feat: add GitHub Actions workflow for CI/CD
+#2 opened 12 hours ago by Srigiriraja
+• Approved
+ 2
+
+feat: added base aks.tf for AKS setup
+#1 opened 12 hours ago by Srigiriraja
+• Approved
+ 1
+
+ ++ Git fork , Forking using the option from Remote repo to our , https://github.com/futurice/terraform-examples this one to https://github.com/Srigiriraja/terraform-examples cloned to my local machine had a sample linux docker app in it need to make chenges and repush it to remote repo 
+
+ ++ Git stash - By using stash command we can save and store our work and changes tempeoraryly .
+
+ ++ Git stash list , git stash , git stash -u ,  git stash apply  - this helps in getting back saved files. git stash pop - this will keep simple apply and remove and save on top changes after this will remove saved mork and changes , stash drop - this will delete all the saved files , git stash apply 'stash@{index value}'
+++ Git cherry pick - This command is used for selected single commits or multiple commits at particular point or change the we will apply to different branch . Git cherry-pick {commit hash}
+
+++ Git without command in VS Code GUI , exloring commands and using GUI coomads by right clicking on 3 dots on repo.
+
+
+
+
+
+
+
+
+
