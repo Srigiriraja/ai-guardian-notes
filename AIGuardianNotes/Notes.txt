@@ -2611,11 +2611,2163 @@ feat: added base aks.tf for AKS setup
 
 ++ Git without command in VS Code GUI , exloring commands and using GUI coomads by right clicking on 3 dots on repo.
 
+++ 
 
 
 
 
+Perfect 👍 Let’s build your **very strong programming foundation** step by step.
+I’ll teach you **like a mentor in real-time projects** — simple, realistic, and with examples you can relate to.
+
+---
+
+## 🧱 1. What is Programming?
+
+Programming = Telling a computer what to do **step by step** in a structured way.
+
+🔹 **Real-life analogy:**
+Think of programming as writing **cooking instructions**:
+
+* Ingredients → **Data**
+* Steps → **Logic / Algorithm**
+* Final Dish → **Output**
+
+Example (in Python):
+
+```python
+# Make Tea
+water = "boiled"
+tea_powder = "added"
+sugar = "added"
+milk = "added"
+
+print("Tea is ready ☕")
+```
+
+---
+
+## 🧱 2. Variables (Storing Data)
+
+Variables = Containers to hold information.
+
+🔹 **Real-life analogy:**
+Cupboards in your kitchen → you store items in them and use later.
+
+Example:
+
+```python
+name = "Raghu"
+age = 27
+salary = 50000.50
+
+print("Name:", name)
+print("Age:", age)
+print("Salary:", salary)
+```
+
+---
+
+## 🧱 3. Data Types (Kinds of Data)
+
+Every cupboard (variable) has a type of item inside.
+
+* `int` → whole numbers (e.g., 10, -45)
+* `float` → decimal numbers (e.g., 3.14, 99.99)
+* `string` → text (e.g., "Hello")
+* `boolean` → True / False
+
+Example:
+
+```python
+is_logged_in = True
+temperature = 36.6
+city = "Hyderabad"
+population = 1000000
+```
+
+---
+
+## 🧱 4. Operators (Working on Data)
+
+Operators = Tools (like +, -, \*, /).
+
+Example:
+
+```python
+a = 10
+b = 3
+
+print(a + b)  # 13
+print(a - b)  # 7
+print(a * b)  # 30
+print(a / b)  # 3.33
+print(a % b)  # 1 (remainder)
+```
+
+🔹 **Real-time example:**
+Bank balance calculation, EMI, shopping discounts.
+
+---
+
+## 🧱 5. Conditional Statements (Decision Making)
+
+"If this → Do that, else do something else."
+
+🔹 **Real-life analogy:**
+If it rains → take umbrella, else → wear sunglasses.
+
+Example:
+
+```python
+age = 20
+
+if age >= 18:
+    print("You can vote ✅")
+else:
+    print("You cannot vote ❌")
+```
+
+---
+
+## 🧱 6. Loops (Repetition)
+
+Do something **again and again** until condition is met.
+
+🔹 **Real-life analogy:**
+Washing 5 plates one by one → same action repeated.
+
+Example:
+
+```python
+for i in range(1, 6):
+    print("Plate", i, "washed ✅")
+```
+
+---
+
+## 🧱 7. Functions (Reusable Blocks)
+
+Functions = Packaged tasks → you write once, use many times.
+
+🔹 **Real-life analogy:**
+A washing machine button → you press it, it does its job.
+
+Example:
+
+```python
+def greet(name):
+    print("Hello", name)
+
+greet("Raghu")
+greet("Tara")
+```
+
+---
+
+## 🧱 8. Arrays / Lists (Collections)
+
+When you want to store **many values in one place**.
+
+🔹 **Real-life analogy:**
+Grocery bag → many items inside.
+
+Example:
+
+```python
+fruits = ["Apple", "Banana", "Mango"]
+
+for fruit in fruits:
+    print(fruit)
+```
+
+---
+
+## 🧱 9. Objects (Real-World Entities)
+
+Object = Combination of **data + actions**.
+
+🔹 **Real-life analogy:**
+Car → Data (color, brand, speed) + Actions (drive, stop).
+
+Example (Python class):
+
+```python
+class Car:
+    def __init__(self, brand, color):
+        self.brand = brand
+        self.color = color
+    
+    def drive(self):
+        print(self.brand, "is driving 🚗")
+
+mycar = Car("Tesla", "Red")
+print(mycar.color)   # Red
+mycar.drive()        # Tesla is driving 🚗
+```
+
+---
+
+## 🧱 10. Real-Time Mini Project Example
+
+💡 Shopping Cart Calculation:
+
+```python
+cart = [200, 150, 50]   # items in rupees
+total = 0
+
+for item in cart:
+    total += item
+
+if total > 300:
+    print("Discount applied!")
+    total = total - 50
+
+print("Final Bill:", total)
+```
+
+---
+
+🔥 If you master these **10 foundations** with small examples, you’ll be stronger than 70% of programmers who jump into frameworks without clarity.
+
+---
+
+Got you 💯
+Don’t worry — confusion is **normal** when learning parameters.
+Let’s make this **super simple**, step-by-step, like teaching a kid how to use a calculator.
+
+---
+
+# 🧱 Step 1: What is a Function (Recap)
+
+👉 A **function** is like a machine. You give it **input**, it gives you **output**.
+
+Example:
+
+```python
+def say_hello():
+    print("Hello!")
+```
+
+Calling:
+
+```python
+say_hello()
+```
+
+Output:
+
+```
+Hello!
+```
+
+But here, it always says **Hello!** (boring, fixed output).
+We want it to say hello to **different people** → that’s where **parameters** come in.
+
+---
+
+# 🧱 Step 2: What is a Parameter?
+
+👉 A **parameter** is just a **placeholder** for information the function needs.
+It’s like an **empty box** waiting to be filled when you run the function.
+
+Example:
+
+```python
+def say_hello(name):   # name is a parameter
+    print("Hello", name)
+```
+
+Now when you **call** the function:
+
+```python
+say_hello("Raghu")   # Raghu is an argument (real value)
+say_hello("Tara")
+```
+
+Output:
+
+```
+Hello Raghu
+Hello Tara
+```
+
+⚡ Magic: One function, different outputs, because of **parameters**.
+
+---
+
+# 🧱 Step 3: Parameters vs Arguments (Super Simple)
+
+* **Parameter** → Empty box in the function (like a label).
+* **Argument** → Actual value you put inside when you call the function.
+
+Example:
+
+```python
+def greet(person):   # person = parameter (empty box)
+    print("Hi", person)
+
+greet("Raghu")       # "Raghu" = argument (real value)
+```
+
+---
+
+# 🧱 Step 4: Parameters in Real Life
+
+👉 Think of **Swiggy/Zomato Order**:
+
+* App function: `place_order(item, quantity)`
+* Parameters: `item`, `quantity`
+* Arguments: `"Pizza", 2`
+
+Code:
+
+```python
+def place_order(item, quantity):
+    print("Order placed:", quantity, item)
+
+place_order("Pizza", 2)
+place_order("Burger", 5)
+```
+
+Output:
+
+```
+Order placed: 2 Pizza
+Order placed: 5 Burger
+```
+
+---
+
+# 🧱 Step 5: Types of Parameters (Only 2 to Start)
+
+1. **Normal (Required) Parameters**
+
+   ```python
+   def add(a, b):
+       print(a + b)
+
+   add(5, 3)   # 8
+   ```
+
+2. **Default Parameters (Optional)**
+
+   ```python
+   def greet(name="Guest"):
+       print("Hello", name)
+
+   greet()          # Hello Guest
+   greet("Raghu")   # Hello Raghu
+   ```
+
+---
+
+# 🧱 Step 6: Real-Time Mini Example (Shopping)
+
+```python
+def calculate_bill(items, discount=0):   # discount has default 0
+    total = sum(items)
+    final_price = total - discount
+    print("Final Bill:", final_price)
+
+cart = [200, 150, 50]
+
+calculate_bill(cart)           # No discount
+calculate_bill(cart, 50)       # Discount 50
+```
+
+Output:
+
+```
+Final Bill: 400
+Final Bill: 350
+```
+
+---
+
+✅ Now the confusion should drop — Parameters = **empty boxes (placeholders)**, Arguments = **real values (what you put in the box)**.
+
+---
+
+Perfect 👌 Let’s build you a **1-page cheat sheet + visual diagram** for **Parameters vs Arguments** so you never forget.
+
+---
+What are Parameters?
+
+👉 Parameters are like placeholders / input variables that a function needs in order to do its job.
+When you call the function, you pass arguments (actual values) into those parameters.
 
 
+# 🧾 Parameters vs Arguments — Memory Card
 
+### 🔹 Definition
+
+* **Parameter** → Empty **placeholder box** inside the function (like a variable waiting for input).
+* **Argument** → Actual **value** you pass to the function when calling it.
+
+---
+
+### 🔹 Visual Diagram
+
+```
+Function Definition (with Parameters)
+-----------------------------------
+def greet(name, age):
+    print("Hello", name, "you are", age)
+
+   | name  | age   |   <-- PARAMETERS (placeholders)
+
+
+Function Call (with Arguments)
+-------------------------------
+greet("Raghu", 27)
+
+   | "Raghu" |  27  |   <-- ARGUMENTS (real values)
+```
+
+💡 Parameters = Labels on empty boxes.
+💡 Arguments = Things you put in the boxes.
+
+---
+
+### 🔹 Real-Life Analogy
+
+**Swiggy Order**
+
+* Function: `place_order(item, quantity)`
+* Parameters: `item`, `quantity` (placeholders).
+* Arguments: `"Pizza"`, `2` (real values).
+
+Code:
+
+```python
+def place_order(item, quantity):
+    print("Ordered", quantity, item)
+
+place_order("Pizza", 2)    # Arguments = Pizza, 2
+```
+
+Output:
+
+```
+Ordered 2 Pizza
+```
+
+---
+
+### 🔹 2 Main Types of Parameters (for 90% cases)
+
+1. **Normal (Required)**
+
+```python
+def add(a, b):
+    print(a + b)
+
+add(5, 3)   # 8
+```
+
+2. **Default (Optional)**
+
+```python
+def greet(name="Guest"):
+    print("Hello", name)
+
+greet()         # Hello Guest
+greet("Raghu")  # Hello Raghu
+```
+
+---
+
+### 🔹 Super-Simple Formula
+
+👉 **Parameter = What function *expects***
+👉 **Argument = What you *give***
+
+---
+
+placeholders : a person or thing that occupies the position or place of another person or thing.
+
+✅ If you remember only this:
+**Function definition has Parameters, Function call has Arguments.**
+
+---
+
+Great question 👌 — this means you are digging deeper into **functions** (the heart of programming).
+Let’s break it down **super simple + real-time examples**.
+
+---
+
+# 🔹 What are Parameters?
+
+👉 Parameters are like **placeholders / input variables** that a function needs in order to do its job.
+When you call the function, you pass **arguments (actual values)** into those parameters.
+
+---
+
+### 🏠 Real-Life Analogy
+
+Imagine a **washing machine**:
+
+* Machine (function) needs **water level, cloth type, time** → these are **parameters**.
+* You actually choose: "30 minutes, cotton, half load" → these are **arguments**.
+
+---
+
+### 🧑‍💻 Example in Python
+
+```python
+# Function with parameters
+def greet(name, age):
+    print("Hello", name, "you are", age, "years old")
+
+# Call function with arguments
+greet("Raghu", 27)
+greet("Tara", 25)
+```
+
+📌 Here:
+
+* `name` and `age` → **parameters** (like input fields).
+* `"Raghu", 27` → **arguments** (real values you provide).
+
+---
+
+### 🔹 Why Parameters are Important?
+
+They make functions **reusable & dynamic**.
+
+Without parameters:
+
+```python
+def greet():
+    print("Hello Raghu, you are 27")
+
+greet()
+greet()  # Always same output, boring
+```
+
+With parameters:
+
+```python
+def greet(name, age):
+    print("Hello", name, "you are", age)
+
+greet("Raghu", 27)
+greet("Maya", 30)
+```
+
+✅ Now you can greet **anyone**, not just one fixed person.
+
+---
+
+### 🔹 Types of Parameters
+
+1. **Required Parameters** – must pass a value.
+
+   ```python
+   def add(a, b):
+       return a + b
+   print(add(5, 3))  # 8
+   ```
+
+2. **Default Parameters** – function uses a default if you don’t provide.
+
+   ```python
+   def greet(name="Guest"):
+       print("Hello", name)
+
+   greet()           # Hello Guest
+   greet("Raghu")    # Hello Raghu
+   ```
+
+3. **Variable Parameters** (`*args`) – take multiple values.
+
+   ```python
+   def total(*numbers):
+       print(sum(numbers))
+
+   total(10, 20, 30)   # 60
+   ```
+
+4. **Keyword Parameters** (`**kwargs`) – pass data as key=value.
+
+   ```python
+   def profile(**details):
+       print(details)
+
+   profile(name="Raghu", age=27, city="Hyderabad")
+   # {'name': 'Raghu', 'age': 27, 'city': 'Hyderabad'}
+   ```
+
+---
+
+### 🛒 Real-Time Mini Project Example: Shopping Bill
+
+```python
+def calculate_bill(items, discount=0):
+    total = sum(items)
+    final_price = total - discount
+    return final_price
+
+cart = [200, 150, 50]
+print("Bill without discount:", calculate_bill(cart))
+print("Bill with discount:", calculate_bill(cart, discount=50))
+```
+
+✅ Here:
+
+* `items`, `discount` → **parameters**
+* `cart`, `50` → **arguments**
+
+---
+
+Variable
+A variable is a piece of information that can change. It's like a sticky note that the app uses to remember things about your order.
+Zomato example: When you type "Pizza" in the search bar, the app stores "Pizza" in a variable called search_query. When you add a pizza to your cart, the app stores the price, item name, and quantity in a cart_items variable.
+Function
+A function is an action or a task that the app does. It is a block of code that runs when you tap a button or perform some other action.
+Zomato example: When you press the "Place Order" button, you are telling the app to run the place_order() function. This function has many steps, including:
+Checking what's in your cart.
+Processing your payment.
+Sending your order to the restaurant.
+Parameter: discount_percentage
+A parameter is a setting for a function. The apply_discount() function needs to know how much to reduce the bill by. It has a placeholder, or parameter, called discount_percentage. 
+Arguments: 20 and 10
+The arguments are the actual values passed to that parameter.
+If you have a 20% discount voucher, the app calls the function like this: apply_discount(20). The number 20 is the argument.
+If your friend has a 10% discount voucher, the app calls the function like this: apply_discount(10). The number 10 is the argument. 
+The same function, apply_discount(), can be used in different situations because the parameter discount_percentage allows for different values (arguments) to be passed in, making the function more flexible.
+
+Argument
+An argument is the actual value that you put into a parameter's "box." An argument gives a function the specific information it needs to run.
+Zomato example: When you use the search filters to find "pizza" in "Kukatpally," you are providing arguments. So, for the search_for_restaurants() function, the arguments are "pizza" and "Kukatpally"
+
+
+🔥 Super! You’re aiming for **Techie Player level YAML skills** — the kind that makes teammates shocked when you write YAML like poetry 😎.
+Let’s deep dive into **YAML fundamentals** in a way that sticks forever with **real-time DevOps/project examples**.
+
+---
+
+# 🧱 1. What is YAML?
+
+👉 **YAML = “YAML Ain’t Markup Language”**
+
+* A **data format** (like JSON/XML)
+* Humans ❤️ YAML → Easy to read/write
+* Machines ❤️ YAML → Easy to parse
+
+📌 Used in:
+✅ **DevOps (CI/CD pipelines – Azure DevOps, GitHub Actions, Jenkins)**
+✅ **Kubernetes (deployment.yaml, service.yaml)**
+✅ **Configuration files (Ansible, Docker Compose, etc.)**
+
+---
+
+# 🧱 2. Basic Rules of YAML
+
+⚡ If you remember these **5 rules**, you’ll never mess up:
+
+1. **Indentation = Meaning** (2 spaces, no tabs ❌)
+2. **Key : Value** (like a dictionary)
+3. **Lists = `- item`**
+4. **Strings can be plain, "quoted", or 'single quoted'**
+5. **# for comments**
+
+Example:
+
+```yaml
+# Student details
+name: Raghu
+age: 27
+skills:
+  - YAML
+  - Python
+  - DevOps
+```
+
+---
+
+# 🧱 3. Key-Value Pairs
+
+YAML = Key on left, Value on right.
+
+```yaml
+environment: production
+region: us-east
+version: 1.0
+```
+
+Equivalent in JSON:
+
+```json
+{
+  "environment": "production",
+  "region": "us-east",
+  "version": 1.0
+}
+```
+
+---
+
+# 🧱 4. Lists (Arrays)
+
+When you have **multiple items**.
+
+```yaml
+fruits:
+  - Apple
+  - Mango
+  - Banana
+```
+
+📌 Real DevOps Example: Pipeline stages
+
+```yaml
+stages:
+  - build
+  - test
+  - deploy
+```
+
+---
+
+# 🧱 5. Nested Structures (Indentation = Hierarchy)
+
+```yaml
+employee:
+  name: Raghu
+  age: 27
+  skills:
+    - Python
+    - Kubernetes
+    - Terraform
+```
+
+📌 Real Kubernetes Example:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+    - name: nginx
+      image: nginx:latest
+```
+
+---
+
+# 🧱 6. Maps (Dictionaries)
+
+```yaml
+database:
+  host: localhost
+  port: 5432
+  username: admin
+  password: secret
+```
+
+📌 Real Ansible Example:
+
+```yaml
+vars:
+  app_name: myapp
+  replicas: 3
+  namespace: production
+```
+
+---
+
+# 🧱 7. Multiple Documents in One File
+
+Separate with `---`
+
+```yaml
+# First document
+app: frontend
+replicas: 2
+---
+
+# Second document
+app: backend
+replicas: 3
+```
+
+📌 Real Kubernetes Example (Deployment + Service in one file).
+
+---
+
+# 🧱 8. Reuse with Anchors & Aliases (Pro Level 🚀)
+
+👉 Use `&` to define, `*` to reuse.
+
+```yaml
+defaults: &defaults
+  region: us-east
+  retries: 3
+
+service1:
+  <<: *defaults
+  name: api-service
+
+service2:
+  <<: *defaults
+  name: auth-service
+```
+
+---
+
+# 🧱 9. Environment Variables (Azure DevOps Example)
+
+```yaml
+variables:
+  buildConfiguration: Release
+  azureSubscription: my-service-connection
+  resourceGroup: guardian-rg
+  acrName: gurdianacr
+```
+
+---
+
+# 🧱 10. Real-Time Mini Project Examples
+
+### 💡 Example 1: Azure DevOps Pipeline (Simple)
+
+```yaml
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: build
+      projects: '**/*.csproj'
+```
+
+### 💡 Example 2: Kubernetes Deployment
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+        - name: web-container
+          image: myacr.azurecr.io/webapp:v1
+          ports:
+            - containerPort: 80
+```
+
+---
+
+# 🧠 Mnemonic to Remember YAML Like a Pro
+
+👉 **K-L-N-M-A-R**
+
+* **K**ey : value
+* **L**ists = `-`
+* **N**ested (spaces matter)
+* **M**aps (dictionaries)
+* **A**nchors & aliases
+* **R**eal-time configs
+
+---
+
+⚡ If you master these → you’ll **rock YAML** in DevOps, Kubernetes, Terraform, Ansible, anywhere.
+People will literally say: *“How the hell do you write YAML so fast without mistakes?”* 😎
+
+---
+
+🔥 Boom! You’re asking the **killer YAML topic** → **Templates, Variables, Parameters**.
+This is where people in companies often get confused and waste time… but if you **master it**, you’ll look like a **YAML magician** ⚡ and your team will say *“This guy rocks!”*
+
+Let’s deep dive step by step with **real-time, company-style examples** 👇
+
+---
+
+# 🧱 1. Variables in YAML
+
+👉 **Variables = Reusable values** → define once, use many times.
+
+📌 **Azure DevOps Example**:
+
+```yaml
+variables:
+  buildConfiguration: Release
+  resourceGroup: guardian-rg
+  acrName: gurdianacr
+  location: eastus
+
+steps:
+  - script: echo "Building in $(buildConfiguration)"
+  - script: echo "Pushing to ACR $(acrName) in $(location)"
+```
+
+✅ `$(buildConfiguration)` = placeholder replaced by value `Release`.
+
+📌 **Real-Time Usage in Company**:
+
+* Store environment names (`dev`, `test`, `prod`)
+* Store resource names (ACR, RG, cluster name)
+* Avoid **copy-paste hell**
+
+---
+
+# 🧱 2. Parameters in YAML
+
+👉 **Parameters = Flexible inputs you pass at runtime**
+
+* Think of **function arguments in programming**.
+* Used for **templates** where the same YAML is reused across teams.
+
+📌 **Simple Example**:
+
+```yaml
+parameters:
+  - name: environment
+    type: string
+    default: dev
+
+steps:
+  - script: echo "Deploying to ${{ parameters.environment }}"
+```
+
+Running pipeline with parameter:
+
+* Default → `dev`
+* Override at runtime → `prod`
+
+📌 **Real-Time DevOps Example**:
+
+```yaml
+parameters:
+  - name: replicas
+    type: int
+    default: 2
+
+steps:
+  - script: echo "Deploying with ${{ parameters.replicas }} replicas"
+```
+
+✅ Here, `replicas` can be `2` in dev, `5` in prod.
+
+---
+
+# 🧱 3. Templates in YAML
+
+👉 **Templates = Reusable YAML files** (like functions in programming).
+Instead of repeating steps in 10 pipelines, put them in 1 template → **import everywhere**.
+
+📌 **Example – Build Template (`build-template.yml`)**
+
+```yaml
+parameters:
+  - name: buildConfiguration
+    type: string
+    default: Release
+
+steps:
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: build
+      projects: '**/*.csproj'
+      arguments: '--configuration ${{ parameters.buildConfiguration }}'
+```
+
+📌 **Main Pipeline (`azure-pipelines.yml`)**
+
+```yaml
+stages:
+  - stage: Build
+    jobs:
+      - template: build-template.yml
+        parameters:
+          buildConfiguration: Debug
+```
+
+✅ Advantage:
+
+* One **template** reused in many projects.
+* Change logic in 1 file → all pipelines auto-updated.
+
+---
+
+# 🧱 4. Real-Time DevOps Example: Variables + Parameters + Template Together
+
+### `variables.yml`
+
+```yaml
+variables:
+  appName: guardianApp
+  location: eastus
+  acrName: gurdianacr
+```
+
+### `deploy-template.yml`
+
+```yaml
+parameters:
+  - name: environment
+    type: string
+    default: dev
+  - name: replicas
+    type: int
+    default: 2
+
+steps:
+  - script: echo "Deploying ${{ variables.appName }} to ${{ parameters.environment }}"
+  - script: echo "Using ${{ parameters.replicas }} replicas"
+```
+
+### `azure-pipelines.yml`
+
+```yaml
+variables:
+- template: variables.yml
+
+stages:
+  - stage: DeployDev
+    jobs:
+      - template: deploy-template.yml
+        parameters:
+          environment: dev
+          replicas: 2
+
+  - stage: DeployProd
+    jobs:
+      - template: deploy-template.yml
+        parameters:
+          environment: prod
+          replicas: 5
+```
+
+✅ Output:
+
+```
+Deploying guardianApp to dev
+Using 2 replicas
+
+Deploying guardianApp to prod
+Using 5 replicas
+```
+
+---
+
+# 🧠 Techie Formula (so you never forget):
+
+* **Variables** → Constant values (same everywhere, like appName, RG)
+* **Parameters** → Flexible inputs (different per env, like replicas, envName)
+* **Templates** → Reusable logic (like build, deploy, scan steps)
+
+👉 Together, they give you:
+
+* **Clean YAML** (no repetition)
+* **Maintainable Pipelines** (change once, use everywhere)
+* **Pro-level skills** (this is where 90% devs fail — you shine 🚀)
+
+---
+
+# 🏆 Real Company Impact
+
+When you walk into a project and say:
+
+* “Instead of repeating deploy steps in 5 pipelines, I’ll create **one deploy template** with **parameters for env** and **variables for constants**.”
+
+💥 Boom → Teammates shocked, managers impressed, you rock like a **Techie Player**.
+
+---
+
+Absolutely—let’s build a **production-grade, component-based Azure DevOps pipeline** that your team will love. It’s clean, modular (templates), and supports **AKS / App Service / VMs / On-prem** with CI → Terraform → Deploy → Post-Deploy → Observability. I’ll give you the full YAML plus crisp explanations.
+
+---
+Help me with component based deployement end-to-end YAML project with stages mentioned below with out confusion clearly full explaination step by step real realistic production grade 
+
+  ├─▶ CI Stage
+   │     • restore/build/test
+   │     • code quality (Sonar), SCA (Trivy), SBOM
+   │     • build Docker (if containerized)
+   │     • publish artifact + push image to ACR
+   │
+   ├─▶ Terraform Stage
+   │     • init/plan  (manual approval)
+   │     • apply      (creates/updates RG/VNet/AKS/VM/AppSvc/etc)
+   │
+   ├─▶ Deploy Stage (conditional by target)
+   │     ├─▶ AKS: helm upgrade --install from ACR
+   │     ├─▶ App Service: slot deploy + swap (blue/green)
+   │     ├─▶ VMs: copy artifact via SSH/WinRM + restart service
+   │     └─▶ Self-hosted: use private agent to reach on-prem resources
+   │
+   ├─▶ Post-Deploy
+   │     • smoke tests (Newman)
+   │     • DAST (ZAP) optional
+   │
+   └─▶ Observability
+         • push deployment marker (App Insights / Grafana)
+         • alerts + rollback guidance
+
+# Project layout (copy this)
+
+```
+/azure-pipelines.yml                  # main entry
+/pipelines/templates/
+  ci.yml
+  tf-plan.yml
+  tf-apply.yml
+  deploy-aks.yml
+  deploy-appsvc.yml
+  deploy-vm.yml
+  postdeploy.yml
+  observability.yml
+/pipelines/vars/
+  common.yml
+  environments.yml
+/infra/terraform/                     # your TF code (RG/VNet/AKS/AppSvc/VM/etc)
+/charts/yourapp/                      # helm chart if AKS
+/tests/postman/collection.json        # smoke tests
+/tests/postman/environment.json
+/Dockerfile                           # if containerized
+/PartsUnlimited-aspnet45.sln          # your solution
+```
+
+---
+
+# Assumptions (edit once)
+
+* **Repo:** your .NET 4.5 solution at `PartsUnlimited-aspnet45.sln`
+* **ACR:** `gurdianACR` / login server `gurdianacr.azurecr.io`
+* **RG:** `guardian-rg`
+* **SonarCloud:** service connection `SonarCloud`
+* **Azure:** service connection `sc-azure`
+* **AKS:** service connection `kube-conn`, namespace `prod`
+* **ACR service connection:** `sc-acr` (Docker registry service conn)
+* **On-prem agents pool (optional):** `OnPremAgents`
+* **Branch:** `Fauture-CI` (change if needed)
+
+> Put secrets in Library variable groups (e.g., `prod-secrets`)
+> Examples: `SONAR_PROJECT_KEY`, `SONAR_ORG`, `APPINSIGHTS_IKEY` (or connection string), `GRAFANA_URL`, `GRAFANA_TOKEN`, `SSH_HOST`, `SSH_USER`, `SSH_KEY`, etc.
+
+---
+
+# 1) Main pipeline — `azure-pipelines.yml`
+
+```yaml
+trigger:
+  - Fauture-CI
+
+pr:
+  - Fauture-CI
+
+# ── High-level deploy target and toggles ───────────────────────────────────────
+parameters:
+  - name: target
+    displayName: "Deploy Target"
+    type: string
+    default: appsvc
+    values: [aks, appsvc, vm, selfhosted]
+  - name: runZap
+    type: boolean
+    default: false
+  - name: containerized
+    type: boolean
+    default: true
+
+# ── Common & environment variables via templates ───────────────────────────────
+variables:
+- template: pipelines/vars/common.yml
+- template: pipelines/vars/environments.yml
+- group: prod-secrets  # <-- create in Library
+
+stages:
+# ────────────────────────────── CI ─────────────────────────────────────────────
+- stage: CI
+  displayName: "CI: Restore • Build • Test • Quality • SCA • SBOM • Image"
+  jobs:
+  - template: pipelines/templates/ci.yml
+    parameters:
+      containerized: ${{ parameters.containerized }}
+
+# ─────────────────────────── Terraform ────────────────────────────────────────
+- stage: Terraform
+  displayName: "Terraform: init/plan/apply"
+  dependsOn: CI
+  jobs:
+  - template: pipelines/templates/tf-plan.yml
+  - template: pipelines/templates/tf-apply.yml
+
+# ─────────────────────────── Deploy (by target) ───────────────────────────────
+- stage: Deploy
+  displayName: "Deploy (${ { parameters.target } })"
+  dependsOn: Terraform
+  condition: succeeded()
+  jobs:
+  - ${{ if eq(parameters.target, 'aks') }}:
+    - template: pipelines/templates/deploy-aks.yml
+  - ${{ if eq(parameters.target, 'appsvc') }}:
+    - template: pipelines/templates/deploy-appsvc.yml
+  - ${{ if eq(parameters.target, 'vm') }}:
+    - template: pipelines/templates/deploy-vm.yml
+  - ${{ if eq(parameters.target, 'selfhosted') }}:
+    - template: pipelines/templates/deploy-vm.yml   # reuse, but pool overridden inside
+
+# ───────────────────────── Post-Deploy checks ─────────────────────────────────
+- stage: PostDeploy
+  displayName: "Post-Deploy: smoke + optional DAST"
+  dependsOn: Deploy
+  condition: succeeded()
+  jobs:
+  - template: pipelines/templates/postdeploy.yml
+    parameters:
+      runZap: ${{ parameters.runZap }}
+
+# ───────────────────────── Observability & Marker ─────────────────────────────
+- stage: Observability
+  displayName: "Observability: marker + guidance"
+  dependsOn: PostDeploy
+  condition: succeededOrFailed()  # mark even on failure
+  jobs:
+  - template: pipelines/templates/observability.yml
+    parameters:
+      target: ${{ parameters.target }}
+```
+
+---
+
+# 2) Variables — `pipelines/vars/common.yml`
+
+```yaml
+# Common defaults for all stages
+variables:
+  vmImageLinux: 'ubuntu-latest'
+  vmImageWindows: 'windows-latest'
+
+  solution: 'PartsUnlimited-aspnet45/PartsUnlimited-aspnet45.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+  acrName: 'gurdianACR'
+  acrLoginServer: 'gurdianacr.azurecr.io'
+  imageName: 'gurdianacr.azurecr.io/ai-guardian/webapp'  # repo path in ACR
+
+  azureSubscription: 'sc-azure'
+  acrServiceConnection: 'sc-acr'
+  sonarService: 'SonarCloud'
+
+  # AKS
+  kubeServiceConnection: 'kube-conn'
+  aksNamespace: 'prod'
+  helmChartPath: 'charts/yourapp'
+
+  # App Service
+  appServiceName: 'your-appservice-name'
+  appServiceRG: 'guardian-rg'
+  appServiceSlot: 'staging'
+  appServiceContainerPort: '80'
+  appUrl: 'https://your-prod-url'  # for smoke/DAST
+
+  # Terraform
+  tfDir: 'infra/terraform'
+  tfPlanOut: 'tfplan.out'
+  tfBackendRg: 'guardian-rg'
+  tfBackendSa: 'yourtfstateaccount'   # change me
+  tfBackendContainer: 'tfstate'
+  tfBackendKey: 'ai-guardian.terraform.tfstate'
+```
+
+`pipelines/vars/environments.yml` (override per env if you want)
+
+```yaml
+variables:
+  environment: 'prod'
+```
+
+---
+
+# 3) CI template — `pipelines/templates/ci.yml`
+
+```yaml
+parameters:
+  - name: containerized
+    type: boolean
+    default: true
+
+jobs:
+# Build & test on Windows for .NET Framework
+- job: Build_Test_Quality
+  displayName: "Build • Test • SonarCloud"
+  pool: { vmImage: $(vmImageWindows) }
+  steps:
+    - checkout: self
+      fetchDepth: 0
+
+    - task: NuGetToolInstaller@1
+
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        restoreSolution: '$(solution)'
+
+    - task: SonarCloudPrepare@1
+      displayName: "SonarCloud: Prepare"
+      inputs:
+        SonarCloud: '$(sonarService)'
+        organization: '$(SONAR_ORG)'
+        scannerMode: 'MSBuild'
+        projectKey: '$(SONAR_PROJECT_KEY)'
+        projectName: '$(SONAR_PROJECT_NAME)'
+
+    - task: VSBuild@1
+      inputs:
+        solution: '$(solution)'
+        msbuildArgs: '/p:Configuration=$(buildConfiguration)'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+
+    - task: VSTest@2
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\*test*.dll
+          !**\*TestAdapter.dll
+          !**\obj\**
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+
+    - task: SonarCloudAnalyze@1
+      displayName: "SonarCloud: Analyze"
+
+    - task: SonarCloudPublish@1
+      displayName: "SonarCloud: Publish Quality Gate"
+      inputs:
+        pollingTimeoutSec: '300'
+
+    # Package web app artifact (if not containerized, needed for App Service zip deploy or VM)
+    - task: ArchiveFiles@2
+      displayName: "Archive build output"
+      inputs:
+        rootFolderOrFile: '$(Build.SourcesDirectory)'
+        includeRootFolder: false
+        archiveFile: '$(Build.ArtifactStagingDirectory)/drop.zip'
+        archiveType: 'zip'
+        replaceExistingArchive: true
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+# Security scans & container build on Linux
+- job: Security_SCA_SBOM_Image
+  displayName: "Trivy SCA • SBOM • Docker build & push"
+  dependsOn: Build_Test_Quality
+  pool: { vmImage: $(vmImageLinux) }
+  steps:
+    - checkout: self
+
+    # Install Trivy
+    - bash: |
+        set -e
+        sudo apt-get update -y
+        sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+        echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/trivy.list
+        sudo apt-get update -y
+        sudo apt-get install -y trivy
+      displayName: "Install Trivy"
+
+    # SCA / Malware scan (filesystem)
+    - bash: |
+        set -e
+        trivy fs --exit-code 0 --severity MEDIUM,HIGH,CRITICAL --format table .
+        trivy fs --exit-code 1 --severity CRITICAL --format table . || { echo 'Critical vulns found'; exit 1; }
+      displayName: "Trivy FS scan (SCA/Malware)"
+
+    # SBOM via Syft (CycloneDX)
+    - bash: |
+        set -e
+        curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b . v1.18.1
+        ./syft packages dir:. -o cyclonedx-json > $(Build.ArtifactStagingDirectory)/sbom.cdx.json
+      displayName: "Generate SBOM (CycloneDX)"
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'security'
+        publishLocation: 'Container'
+
+    # Container build & push (optional)
+    - ${{ if eq(parameters.containerized, true) }}:
+      - task: Docker@2
+        displayName: "Docker: Login ACR"
+        inputs:
+          command: 'login'
+          containerRegistry: '$(acrServiceConnection)'
+
+      - task: Docker@2
+        displayName: "Docker: Build & Push"
+        inputs:
+          command: 'buildAndPush'
+          repository: '$(imageName)'
+          dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+          tags: |
+            $(Build.BuildId)
+            latest
+```
+
+---
+
+# 4) Terraform plan — `pipelines/templates/tf-plan.yml`
+
+```yaml
+jobs:
+- job: TF_Plan
+  displayName: "Terraform: init + plan"
+  pool: { vmImage: $(vmImageLinux) }
+  steps:
+    - checkout: self
+
+    - task: AzureCLI@2
+      displayName: "Terraform init + plan"
+      inputs:
+        azureSubscription: '$(azureSubscription)'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          set -e
+          cd $(tfDir)
+
+          terraform --version || true
+
+          cat > backend.hcl <<EOF
+          resource_group_name  = "$(tfBackendRg)"
+          storage_account_name = "$(tfBackendSa)"
+          container_name       = "$(tfBackendContainer)"
+          key                  = "$(tfBackendKey)"
+          EOF
+
+          terraform init -backend-config=backend.hcl
+          terraform validate
+          terraform plan -out $(tfPlanOut)
+
+    - publish: $(System.DefaultWorkingDirectory)/$(tfDir)/$(tfPlanOut)
+      artifact: tfplan
+
+    # Manual validation (pause for approval)
+    - task: ManualValidation@0
+      timeoutInMinutes: 1440
+      inputs:
+        notifyUsers: ''
+        instructions: |
+          Review Terraform plan artifact (tfplan).
+          Approve to continue to APPLY, or reject to stop.
+        onTimeout: 'reject'
+```
+
+---
+
+# 5) Terraform apply — `pipelines/templates/tf-apply.yml`
+
+```yaml
+jobs:
+- job: TF_Apply
+  displayName: "Terraform: apply"
+  dependsOn: TF_Plan
+  pool: { vmImage: $(vmImageLinux) }
+  steps:
+    - download: current
+      artifact: tfplan
+
+    - task: AzureCLI@2
+      displayName: "Terraform apply"
+      inputs:
+        azureSubscription: '$(azureSubscription)'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          set -e
+          cd $(tfDir)
+          terraform apply -auto-approve $(Pipeline.Workspace)/tfplan/$(tfPlanOut)
+```
+
+> **Pro tip:** For stricter change control, use **Environments** with approvals (Project Settings → Pipelines → Environments) on this stage.
+
+---
+
+# 6) Deploy to AKS — `pipelines/templates/deploy-aks.yml`
+
+```yaml
+jobs:
+- deployment: Deploy_AKS
+  displayName: "AKS: helm upgrade --install"
+  environment: 'prod'   # add approvals here if you want
+  pool: { vmImage: $(vmImageLinux) }
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+          - checkout: self
+
+          - task: HelmInstaller@1
+            inputs:
+              helmVersionToInstall: 'latest'
+
+          - task: HelmDeploy@0
+            displayName: "Helm upgrade/install"
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceConnection: '$(kubeServiceConnection)'
+              namespace: '$(aksNamespace)'
+              command: 'upgrade'
+              chartType: 'FilePath'
+              chartPath: '$(helmChartPath)'
+              releaseName: 'yourapp'
+              valueFile: '$(helmChartPath)/values.yaml'
+              arguments: >
+                --install
+                --set image.repository=$(imageName)
+                --set image.tag=$(Build.BuildId)
+                --set image.pullPolicy=IfNotPresent
+                --wait --timeout 5m
+```
+
+---
+
+# 7) Deploy to App Service (blue/green via slot) — `pipelines/templates/deploy-appsvc.yml`
+
+```yaml
+jobs:
+- deployment: Deploy_AppService
+  displayName: "App Service: slot deploy + swap"
+  environment: 'prod'
+  pool: { vmImage: $(vmImageLinux) }
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+          - ${{ if eq(variables['containerized'], 'true') }}:
+            - task: AzureWebAppContainer@1
+              displayName: "Deploy container to staging slot"
+              inputs:
+                azureSubscription: '$(azureSubscription)'
+                appName: '$(appServiceName)'
+                resourceGroupName: '$(appServiceRG)'
+                slotName: '$(appServiceSlot)'
+                containers: |
+                  $(acrLoginServer)/$(imageName#$(acrLoginServer)/):$(Build.BuildId)
+                # If single container, above resolves to gurdianacr.azurecr.io/ai-guardian/webapp:$(Build.BuildId)
+
+          - ${{ if ne(variables['containerized'], 'true') }}:
+            - download: current
+              artifact: drop
+            - task: AzureWebApp@1
+              displayName: "Zip deploy to staging slot"
+              inputs:
+                azureSubscription: '$(azureSubscription)'
+                appName: '$(appServiceName)'
+                resourceGroupName: '$(appServiceRG)'
+                package: '$(Pipeline.Workspace)/drop/drop.zip'
+                deployToSlotOrASE: true
+                resourceGroupName: '$(appServiceRG)'
+                slotName: '$(appServiceSlot)'
+
+          - task: AzureAppServiceManage@0
+            displayName: "Swap slots: staging → production"
+            inputs:
+              azureSubscription: '$(azureSubscription)'
+              Action: 'Swap Slots'
+              WebAppName: '$(appServiceName)'
+              ResourceGroupName: '$(appServiceRG)'
+              SourceSlot: '$(appServiceSlot)'
+              # Target is production by default
+```
+
+---
+
+# 8) Deploy to VMs / On-prem — `pipelines/templates/deploy-vm.yml`
+
+```yaml
+jobs:
+- job: Deploy_VM
+  displayName: "VMs: copy artifact + restart service"
+  pool:
+    ${{ if eq(variables['Agent.TargetName'], 'selfhosted') }}:
+      name: 'OnPremAgents'     # override when using self-hosted target
+    ${{ if ne(variables['Agent.TargetName'], 'selfhosted') }}:
+      vmImage: $(vmImageLinux)
+
+  steps:
+    - download: current
+      artifact: drop
+
+    # Example: Linux VM over SSH
+    - task: CopyFilesOverSSH@0
+      displayName: "Copy package to VM"
+      inputs:
+        sshEndpoint: 'ssh-conn'         # service connection to VM
+        sourceFolder: '$(Pipeline.Workspace)/drop'
+        contents: 'drop.zip'
+        targetFolder: '/opt/yourapp'
+
+    - task: SSH@0
+      displayName: "Unzip + restart service"
+      inputs:
+        sshEndpoint: 'ssh-conn'
+        script: |
+          set -e
+          cd /opt/yourapp
+          unzip -o drop.zip
+          sudo systemctl restart yourapp.service
+```
+
+> For **self-hosted** on-prem, create a **private agent** in pool `OnPremAgents` and (optionally) set a variable or separate pipeline run with `parameters.target: selfhosted`.
+
+---
+
+# 9) Post-Deploy checks — `pipelines/templates/postdeploy.yml`
+
+```yaml
+parameters:
+  - name: runZap
+    type: boolean
+    default: false
+
+jobs:
+- job: Smoke_Tests
+  displayName: "Smoke tests (Newman)"
+  pool: { vmImage: $(vmImageLinux) }
+  steps:
+    - checkout: self
+    - bash: |
+        set -e
+        docker run --rm -v $(System.DefaultWorkingDirectory)/tests/postman:/etc/newman \
+          postman/newman:alpine run /etc/newman/collection.json \
+          -e /etc/newman/environment.json \
+          --reporters cli,junit \
+          --reporter-junit-export $(Build.ArtifactStagingDirectory)/newman.xml
+      displayName: "Run Postman collection"
+
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '$(Build.ArtifactStagingDirectory)/newman.xml'
+        failTaskOnFailedTests: true
+
+- ${{ if eq(parameters.runZap, true) }}:
+  - job: DAST_ZAP
+    displayName: "DAST (OWASP ZAP Baseline)"
+    pool: { vmImage: $(vmImageLinux) }
+    steps:
+      - bash: |
+          set -e
+          mkdir -p $(Build.ArtifactStagingDirectory)/zap
+          docker run --rm -t owasp/zap2docker-stable zap-baseline.py \
+            -t $(appUrl) \
+            -J $(Build.ArtifactStagingDirectory)/zap/zap.json \
+            -r $(Build.ArtifactStagingDirectory)/zap/report.html \
+            -m 5
+        displayName: "ZAP Baseline scan"
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)/zap'
+          ArtifactName: 'zap'
+          publishLocation: 'Container'
+```
+
+---
+
+# 10) Observability — `pipelines/templates/observability.yml`
+
+```yaml
+parameters:
+  - name: target
+    type: string
+    default: 'appsvc'
+
+jobs:
+- job: Mark_Deployment
+  displayName: "Push deployment marker (App Insights / Grafana)"
+  pool: { vmImage: $(vmImageLinux) }
+  steps:
+    # Application Insights marker via ingestion API
+    - bash: |
+        set -e
+        if [ -z "$(APPINSIGHTS_IKEY)" ]; then
+          echo "APPINSIGHTS_IKEY not set, skipping AI marker."
+          exit 0
+        fi
+        cat > payload.json <<EOF
+        [{
+          "name":"Microsoft.ApplicationInsights.Event",
+          "time":"$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+          "iKey":"$(APPINSIGHTS_IKEY)",
+          "data":{
+            "baseType":"EventData",
+            "baseData":{
+              "name":"Deployment",
+              "properties":{
+                "buildId":"$(Build.BuildId)",
+                "releaseTarget":"${{ parameters.target }}",
+                "pipeline":"$(Build.DefinitionName)",
+                "sourceVersion":"$(Build.SourceVersion)"
+              }
+            }
+          }
+        }]
+        EOF
+        curl -sS -X POST https://dc.services.visualstudio.com/v2/track \
+          -H "Content-Type: application/json" \
+          --data @payload.json || true
+      displayName: "App Insights deployment marker"
+
+    # Optional Grafana annotation
+    - bash: |
+        set -e
+        if [ -z "$(GRAFANA_URL)" ] || [ -z "$(GRAFANA_TOKEN)" ]; then
+          echo "Grafana vars not set, skipping annotation."
+          exit 0
+        fi
+        cat > ann.json <<EOF
+        {
+          "time": $(date +%s)000,
+          "tags": ["deploy","${{ parameters.target }}"],
+          "text": "Deployed build $(Build.BuildId) to ${{ parameters.target }}"
+        }
+        EOF
+        curl -sS -X POST "$(GRAFANA_URL)/api/annotations" \
+          -H "Authorization: Bearer $(GRAFANA_TOKEN)" \
+          -H "Content-Type: application/json" \
+          --data @ann.json || true
+      displayName: "Grafana annotation"
+
+# (Optional) Rollback helpers if previous stage failed
+- job: Rollback_Hints
+  displayName: "Alerts + Rollback guidance"
+  condition: failed()
+  pool: { vmImage: $(vmImageLinux) }
+  steps:
+    - bash: |
+        echo "Deployment failed. Suggested actions:"
+        echo "1) Check Post-Deploy smoke/DAST artifacts, App Service logs (App Insights Live Metrics), AKS pod logs."
+        echo "2) Quick rollback:"
+        echo "   - App Service: swap slots back: staging -> production (reverse)."
+        echo "   - AKS: helm rollback yourapp 1"
+        echo "   - VMs: revert package and restart service."
+        echo "3) Create an incident with build ID $(Build.BuildId)."
+      displayName: "Rollback guidance (human-readable)"
+```
+
+---
+
+## How to run this like a pro (step-by-step)
+
+1. **Create variable group `prod-secrets`**
+
+   * `SONAR_PROJECT_KEY`, `SONAR_PROJECT_NAME`, `SONAR_ORG`
+   * `APPINSIGHTS_IKEY` (or connection string vars if you adapt)
+   * If using Grafana: `GRAFANA_URL`, `GRAFANA_TOKEN`
+   * If VM deploy: service connections `ssh-conn` with key.
+
+2. **Service connections**
+
+   * `sc-azure` (Azure subscription)
+   * `sc-acr` (ACR registry)
+   * `kube-conn` (Kubernetes)
+   * (Optional) `ssh-conn` (SSH endpoint to VM)
+
+3. **Infra ready**
+
+   * Put Terraform in `/infra/terraform`. Backend storage (SA/container) must exist (or create once).
+   * `terraform plan` waits for **ManualValidation** approval.
+
+4. **Choose target** when queuing the pipeline
+
+   * `target = aks | appsvc | vm | selfhosted`
+   * `runZap = true` to enable ZAP baseline
+   * `containerized = true/false` depending on your app
+
+5. **Blue/Green (App Service)**
+
+   * Deployed to **staging** slot, then **swap** to production. Instant rollback = swap back.
+
+6. **Post-deploy**
+
+   * Newman smoke tests must target your **live URL**; update `appUrl` and Postman env.
+
+7. **Observability**
+
+   * App Insights & (optional) Grafana get a **deployment marker** tied to Build ID.
+
+---
+
+## Why this rocks in a real company
+
+* **Component-based**: swap deploy targets without rewriting pipelines.
+* **Templates + params + variables**: clean, maintainable, re-usable.
+* **Security baked in**: Sonar, Trivy, SBOM.
+* **Governance**: TF plan approval + Environment gates ready.
+* **Ops-friendly**: smoke, optional DAST, markers, rollback hints.
+
+If you paste these files as-is, change the obvious names, and wire up the service connections, you’ll have a **real, production-grade** pipeline your team can ship with. Want me to tailor this precisely to **your current repo and ACR names**, and include a **Helm values.yaml** for AKS too?
+
+So in real time while mentioning variables parameters in YAML file do we need to crate a common re0usable yaml files in real time environments ? so after creating this YAML file we need to pass this parameters values in main yaml ?
+
+This is my doubt just to make things clear and get clarity piece of code blocks with variables and parametrs getting confusion  , need full yaml structure with variables and parameters and how it works to pass ?
+
+
+You’ve got it right: in real projects we **split** YAML into
+
+1. **Variables (common + per-env)** → reusable values
+2. **Templates (with parameters)** → reusable logic
+3. **Main pipeline** → imports variables, **passes parameter values** to templates, picks target env
+
+Below is a **clean, minimal, production-style example** that shows exactly how they connect.
+
+---
+
+# 🗂 Folder layout
+
+```
+/azure-pipelines.yml                 # MAIN
+/pipelines/vars/
+  common.yml                         # shared variables
+  dev.yml                            # env overrides
+  prod.yml
+/pipelines/templates/
+  ci.yml                             # template with parameters
+  deploy.yml                         # template with parameters
+```
+
+---
+
+# 1) Variables (shared) — `pipelines/vars/common.yml`
+
+```yaml
+# variables template (no "parameters" here)
+variables:
+  # Tooling
+  vmImageLinux: 'ubuntu-latest'
+  vmImageWindows: 'windows-latest'
+
+  # App
+  appName: 'guardianApp'
+  imageRepository: 'gurdianacr.azurecr.io/ai-guardian/webapp'
+
+  # Azure service connections / names
+  azureSubscription: 'sc-azure'
+  acrServiceConnection: 'sc-acr'
+  resourceGroup: 'guardian-rg'
+
+  # App Service defaults
+  appServiceName: 'your-appservice-name'
+  appServiceSlot: 'staging'
+
+  # AKS defaults
+  kubeServiceConnection: 'kube-conn'
+  aksNamespace: 'prod'
+
+  # URLs for tests
+  appUrl: 'https://your-prod-url'
+```
+
+## 1b) Variables (per environment) — `pipelines/vars/dev.yml`
+
+```yaml
+variables:
+  environment: 'dev'
+  replicas: 1
+  enableZap: false
+```
+
+`pipelines/vars/prod.yml`
+
+```yaml
+variables:
+  environment: 'prod'
+  replicas: 3
+  enableZap: true
+```
+
+> Use **Library → Variable Groups** for real secrets (tokens, passwords), and reference them in the main file with `- group: prod-secrets`.
+
+---
+
+# 2) Template WITH PARAMETERS (CI) — `pipelines/templates/ci.yml`
+
+```yaml
+# This template accepts parameters (compile-time)
+parameters:
+  - name: containerized
+    type: boolean
+    default: true
+  - name: buildConfiguration
+    type: string
+    default: 'Release'
+
+jobs:
+- job: CI
+  displayName: "CI: restore • build • test"
+  pool: { vmImage: $(vmImageWindows) }      # <- variable from common.yml
+  steps:
+    - checkout: self
+    - task: NuGetToolInstaller@1
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        restoreSolution: '**/*.sln'
+
+    - task: VSBuild@1
+      inputs:
+        solution: '**/*.sln'
+        msbuildArgs: '/p:Configuration=${{ parameters.buildConfiguration }}'
+        platform: 'Any CPU'
+        configuration: '${{ parameters.buildConfiguration }}'
+
+    - task: VSTest@2
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\*test*.dll
+          !**\*TestAdapter.dll
+          !**\obj\**
+
+    # Optional container build & push
+    - ${{ if eq(parameters.containerized, true) }}:
+      - task: Docker@2
+        displayName: "Docker: build & push"
+        inputs:
+          command: 'buildAndPush'
+          containerRegistry: '$(acrServiceConnection)'
+          repository: '$(imageRepository)'
+          dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+          tags: |
+            $(Build.BuildId)
+            latest
+
+    # Publish artifact (useful for App Service/VM deploys)
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(Build.SourcesDirectory)'
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/drop.zip'
+        includeRootFolder: false
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+```
+
+---
+
+# 3) Template WITH PARAMETERS (Deploy) — `pipelines/templates/deploy.yml`
+
+This single template can deploy to **aks** or **appsvc** based on a parameter.
+
+```yaml
+parameters:
+  - name: target
+    type: string
+    default: 'appsvc'     # values: aks, appsvc
+  - name: imageTag
+    type: string
+    default: 'latest'
+
+jobs:
+# ── AKS path ──────────────────────────────────────────────────────────────────
+- ${{ if eq(parameters.target, 'aks') }}:
+  - deployment: Deploy_AKS
+    displayName: "AKS: helm upgrade --install"
+    environment: $(environment)                  # <- from env vars file
+    pool: { vmImage: $(vmImageLinux) }
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: HelmInstaller@1
+              inputs:
+                helmVersionToInstall: 'latest'
+
+            - task: HelmDeploy@0
+              inputs:
+                connectionType: 'Kubernetes Service Connection'
+                kubernetesServiceConnection: '$(kubeServiceConnection)'
+                namespace: '$(aksNamespace)'
+                command: 'upgrade'
+                chartType: 'FilePath'
+                chartPath: 'charts/yourapp'
+                releaseName: 'yourapp'
+                arguments: >
+                  --install
+                  --set image.repository=$(imageRepository)
+                  --set image.tag=${{ parameters.imageTag }}
+                  --wait --timeout 5m
+
+# ── App Service path ──────────────────────────────────────────────────────────
+- ${{ if eq(parameters.target, 'appsvc') }}:
+  - deployment: Deploy_AppService
+    displayName: "App Service: slot deploy + swap"
+    environment: $(environment)
+    pool: { vmImage: $(vmImageLinux) }
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            # If containerized App Service
+            - task: AzureWebAppContainer@1
+              displayName: "Deploy container to staging slot"
+              inputs:
+                azureSubscription: '$(azureSubscription)'
+                appName: '$(appServiceName)'
+                slotName: '$(appServiceSlot)'
+                containers: |
+                  $(imageRepository):${{ parameters.imageTag }}
+
+            # (If zip deploy instead, download artifact and use AzureWebApp@1)
+
+            - task: AzureAppServiceManage@0
+              displayName: "Swap slots: staging → production"
+              inputs:
+                azureSubscription: '$(azureSubscription)'
+                Action: 'Swap Slots'
+                WebAppName: '$(appServiceName)'
+                SourceSlot: '$(appServiceSlot)'
+```
+
+---
+
+# 4) MAIN pipeline — `azure-pipelines.yml`
+
+This is where you **import variables** and **pass parameter values** to templates.
+
+```yaml
+trigger:
+  - main
+
+# Top-level parameters chosen at queue time (compile-time)
+parameters:
+  - name: environment
+    displayName: "Environment"
+    type: string
+    default: 'dev'
+    values: ['dev', 'prod']
+
+  - name: target
+    displayName: "Deploy Target"
+    type: string
+    default: 'appsvc'
+    values: ['aks', 'appsvc']
+
+  - name: containerized
+    type: boolean
+    default: true
+
+  - name: buildConfiguration
+    type: string
+    default: 'Release'
+
+# Bring in common variables
+variables:
+- template: pipelines/vars/common.yml
+
+# Bring in env-specific variables based on parameter
+- ${{ if eq(parameters.environment, 'dev') }}:
+  - template: pipelines/vars/dev.yml
+- ${{ if eq(parameters.environment, 'prod') }}:
+  - template: pipelines/vars/prod.yml
+
+# Optionally bring in secret variable group
+- group: prod-secrets
+
+stages:
+
+# ────────────────────────────── CI ────────────────────────────────────────────
+- stage: CI
+  displayName: "CI"
+  jobs:
+  - template: pipelines/templates/ci.yml
+    parameters:
+      containerized: ${{ parameters.containerized }}
+      buildConfiguration: ${{ parameters.buildConfiguration }}
+
+# ─────────────────────────── Deploy ───────────────────────────────────────────
+- stage: Deploy
+  displayName: "Deploy (${{ parameters.target }}) to ${{ parameters.environment }}"
+  dependsOn: CI
+  condition: succeeded()
+  jobs:
+  - template: pipelines/templates/deploy.yml
+    parameters:
+      target: ${{ parameters.target }}
+      imageTag: $(Build.BuildId)    # variable evaluated at runtime
+```
+
+---
+
+## How it works (no confusion):
+
+* **Parameters** (`${{ }}`)
+
+  * Decided at **compile time** (when the run starts or when templates are expanded).
+  * Use them to **control structure/flow** and **pass options into templates**.
+  * Example: `target`, `environment`, `containerized`, `buildConfiguration`.
+
+* **Variables** (`$( )`)
+
+  * Resolved at **runtime** (during job execution).
+  * Good for values that might come from **variable templates**, **variable groups**, or **system variables** (like `$(Build.BuildId)`).
+
+* **Where to put what**
+
+  * Put **long-lived constants** in **variables templates** (`common.yml`, `prod.yml`).
+  * Put **choices per run** in **top-level parameters** of `azure-pipelines.yml`.
+  * Put **reusable logic** into **templates** and expose **parameters** there so the main pipeline can control behavior.
+
+---
+
+## Mini mental model
+
+* Main pipeline = **orchestrator**
+
+  * Chooses env & target using **parameters**
+  * Imports **variables** (common + per-env)
+  * Calls templates **passing parameters**
+
+* Templates = **reusable functions**
+
+  * Receive **parameters**
+  * Use **variables** loaded by the main file (e.g., service connection names, URLs)
+
+---
+
+## Common pitfalls (avoid these)
+
+1. Using `$(var)` inside `${{ if ... }}` blocks → won’t work (that’s compile-time).
+2. Forgetting to include variable templates before templates that read them.
+3. Tabs in YAML indentation (use spaces).
+4. Secrets in YAML → put them in **Variable Groups**.
+5. Hardcoding environment values across many files → keep them in **vars/dev.yml** & **vars/prod.yml**.
+
+---
+
+If you drop these files into your repo and just change a few names (service connections, app names), you’ll see the full flow:
+
+1. Queue run → choose **environment=prod** and **target=aks**
+2. CI builds & (optionally) pushes image
+3. Deploy template sees `target=aks` → runs Helm upgrade with image tag `$(Build.BuildId)`
+4. All constants (namespace, URLs, service connections) came from **variables templates**
+
+Want me to adapt this exactly to your **`gurdianacr.azurecr.io`**, App Service name, and your **AKS Helm values** so you can run it immediately?
 
