@@ -4771,3 +4771,511 @@ If you drop these files into your repo and just change a few names (service conn
 
 Want me to adapt this exactly to your **`gurdianacr.azurecr.io`**, App Service name, and your **AKS Helm values** so you can run it immediately?
 
+Great question. In real projects with **Dev / QA / Testing / Prod**, you usually do one of these:
+
+1. **Choose ONE environment per run** (ad-hoc deploy)
+2. **Promote through ALL environments** in order (Dev → QA → Testing → Prod) with approvals
+
+Below I’ve given you both patterns with clean, copy-pasteable YAML. You’ll see exactly **where variables live**, **how parameters are passed**, and **how env-specific secrets/values are selected**.
+
+---
+
+# 🗂 Folder layout
+
+```
+/azure-pipelines.yml                       # MAIN
+/pipelines/templates/
+  deploy.yml                                # Reusable deploy logic (takes parameters)
+/pipelines/vars/
+  common.yml                                # Shared variables
+  dev.yml
+  qa.yml
+  testing.yml
+  prod.yml
+```
+
+---
+
+# 1) Variables (shared + per environment)
+
+`pipelines/vars/common.yml`
+
+```yaml
+variables:
+  vmImageLinux: 'ubuntu-latest'
+  vmImageWindows: 'windows-latest'
+
+  # Reusable names/service connections
+  azureSubscription: 'sc-azure'
+  acrServiceConnection: 'sc-acr'
+  kubeServiceConnection: 'kube-conn'
+
+  # App
+  appName: 'guardianApp'
+  imageRepository: 'gurdianacr.azurecr.io/ai-guardian/webapp'
+
+  # AKS
+  aksNamespace: 'default'
+  helmChartPath: 'charts/yourapp'
+
+  # App Service (if used)
+  appServiceName: 'your-appservice'
+  appServiceSlot: 'staging'
+```
+
+`pipelines/vars/dev.yml`
+
+```yaml
+variables:
+  environment: 'dev'
+  replicas: 1
+  hostUrl: 'https://dev.example.com'
+  variableGroup: 'vg-dev-secrets'   # Library -> Variable Group with secrets for DEV
+```
+
+`pipelines/vars/qa.yml`
+
+```yaml
+variables:
+  environment: 'qa'
+  replicas: 1
+  hostUrl: 'https://qa.example.com'
+  variableGroup: 'vg-qa-secrets'
+```
+
+`pipelines/vars/testing.yml`
+
+```yaml
+variables:
+  environment: 'testing'
+  replicas: 2
+  hostUrl: 'https://test.example.com'
+  variableGroup: 'vg-testing-secrets'
+```
+
+`pipelines/vars/prod.yml`
+
+```yaml
+variables:
+  environment: 'prod'
+  replicas: 3
+  hostUrl: 'https://prod.example.com'
+  variableGroup: 'vg-prod-secrets'
+```
+
+> Put sensitive items (DB strings, API keys, etc.) in **Variable Groups** named above and link them in the main pipeline.
+
+---
+
+# 2) Reusable deploy template (parameters in, variables used inside)
+
+`pipelines/templates/deploy.yml`
+
+```yaml
+parameters:
+  - name: target              # aks | appsvc
+    type: string
+    default: 'aks'
+  - name: imageTag
+    type: string
+    default: 'latest'
+
+jobs:
+- ${{ if eq(parameters.target, 'aks') }}:
+  - deployment: Deploy_AKS_${{ variables.environment }}
+    displayName: "AKS: ${{ variables.environment }} (helm upgrade --install)"
+    environment: ${{ variables.environment }}     # Use ADO Environment for approvals
+    pool: { vmImage: $(vmImageLinux) }
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: HelmInstaller@1
+              inputs:
+                helmVersionToInstall: 'latest'
+
+            - task: HelmDeploy@0
+              displayName: "helm upgrade --install"
+              inputs:
+                connectionType: 'Kubernetes Service Connection'
+                kubernetesServiceConnection: '$(kubeServiceConnection)'
+                namespace: '$(aksNamespace)'
+                command: 'upgrade'
+                chartType: 'FilePath'
+                chartPath: '$(helmChartPath)'
+                releaseName: '$(appName)'
+                arguments: >
+                  --install
+                  --set image.repository=$(imageRepository)
+                  --set image.tag=${{ parameters.imageTag }}
+                  --set replicaCount=$(replicas)
+                  --wait --timeout 5m
+
+- ${{ if eq(parameters.target, 'appsvc') }}:
+  - deployment: Deploy_AppSvc_${{ variables.environment }}
+    displayName: "App Service: ${{ variables.environment }} (slot deploy + swap)"
+    environment: ${{ variables.environment }}
+    pool: { vmImage: $(vmImageLinux) }
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: AzureWebAppContainer@1
+              displayName: "Deploy container to staging slot"
+              inputs:
+                azureSubscription: '$(azureSubscription)'
+                appName: '$(appServiceName)'
+                slotName: '$(appServiceSlot)'
+                containers: |
+                  $(imageRepository):${{ parameters.imageTag }}
+
+            - task: AzureAppServiceManage@0
+              displayName: "Swap slots: staging → production"
+              inputs:
+                azureSubscription: '$(azureSubscription)'
+                Action: 'Swap Slots'
+                WebAppName: '$(appServiceName)'
+                SourceSlot: '$(appServiceSlot)'
+```
+
+---
+
+# PATTERN A — Choose ONE environment per run
+
+This is for “deploy to **Dev** only” or “deploy to **Prod** now”.
+
+`azure-pipelines.yml`
+
+```yaml
+trigger:
+  - main
+
+# Choose env & target at queue time
+parameters:
+  - name: environment
+    type: string
+    default: 'dev'
+    values: ['dev','qa','testing','prod']
+
+  - name: target
+    type: string
+    default: 'aks'
+    values: ['aks','appsvc']
+
+  - name: buildConfiguration
+    type: string
+    default: 'Release'
+
+variables:
+- template: pipelines/vars/common.yml
+
+# Bring in env variables conditionally
+- ${{ if eq(parameters.environment, 'dev') }}:
+  - template: pipelines/vars/dev.yml
+- ${{ if eq(parameters.environment, 'qa') }}:
+  - template: pipelines/vars/qa.yml
+- ${{ if eq(parameters.environment, 'testing') }}:
+  - template: pipelines/vars/testing.yml
+- ${{ if eq(parameters.environment, 'prod') }}:
+  - template: pipelines/vars/prod.yml
+
+# Link the environment’s secret variable group
+- group: ${{ variables.variableGroup }}
+
+stages:
+- stage: CI
+  displayName: "CI"
+  jobs:
+    - job: BuildTest
+      pool: { vmImage: $(vmImageWindows) }
+      steps:
+        - checkout: self
+        - task: NuGetToolInstaller@1
+        - task: NuGetCommand@2
+          inputs:
+            command: 'restore'
+            restoreSolution: '**/*.sln'
+        - task: VSBuild@1
+          inputs:
+            solution: '**/*.sln'
+            msbuildArgs: '/p:Configuration=${{ parameters.buildConfiguration }}'
+            platform: 'Any CPU'
+            configuration: '${{ parameters.buildConfiguration }}'
+        - task: VSTest@2
+          inputs:
+            testSelector: 'testAssemblies'
+            testAssemblyVer2: |
+              **\*test*.dll
+              !**\*TestAdapter.dll
+              !**\obj\**
+        - task: Docker@2
+          displayName: "Docker: build & push"
+          inputs:
+            command: 'buildAndPush'
+            containerRegistry: '$(acrServiceConnection)'
+            repository: '$(imageRepository)'
+            dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+            tags: |
+              $(Build.BuildId)
+              latest
+
+- stage: Deploy
+  displayName: "Deploy to ${{ parameters.environment }} (${{ parameters.target }})"
+  dependsOn: CI
+  jobs:
+    - template: pipelines/templates/deploy.yml
+      parameters:
+        target: ${{ parameters.target }}
+        imageTag: $(Build.BuildId)
+```
+
+**How it works:**
+
+* You select **environment** and **target** when you run.
+* The main pipeline **includes the correct env variables file** and **links that env’s secret variable group**.
+* The **deploy template** gets `target` and the `imageTag` and uses the env variables loaded above.
+
+---
+
+# PATTERN B — Promote through ALL environments (Dev → QA → Testing → Prod)
+
+This is common for release pipelines. Each stage uses its **own env vars** & **approval gate**.
+
+`azure-pipelines.yml`
+
+```yaml
+trigger:
+  - main
+
+parameters:
+  - name: target
+    type: string
+    default: 'aks'
+    values: ['aks','appsvc']
+
+variables:
+- template: pipelines/vars/common.yml
+
+stages:
+# ───────────── CI once ─────────────
+- stage: CI
+  displayName: "CI"
+  jobs:
+    - job: BuildTestAndPush
+      pool: { vmImage: $(vmImageWindows) }
+      steps:
+        - checkout: self
+        - task: NuGetToolInstaller@1
+        - task: NuGetCommand@2
+          inputs:
+            command: 'restore'
+            restoreSolution: '**/*.sln'
+        - task: VSBuild@1
+          inputs:
+            solution: '**/*.sln'
+            msbuildArgs: '/p:Configuration=Release'
+            platform: 'Any CPU'
+            configuration: 'Release'
+        - task: VSTest@2
+          inputs:
+            testSelector: 'testAssemblies'
+            testAssemblyVer2: |
+              **\*test*.dll
+              !**\*TestAdapter.dll
+              !**\obj\**
+        - task: Docker@2
+          displayName: "Docker: build & push"
+          inputs:
+            command: 'buildAndPush'
+            containerRegistry: '$(acrServiceConnection)'
+            repository: '$(imageRepository)'
+            dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+            tags: |
+              $(Build.BuildId)
+
+# ───────────── DEV ─────────────
+- stage: Deploy_Dev
+  displayName: "Deploy: Dev"
+  dependsOn: CI
+  variables:
+  - template: pipelines/vars/dev.yml
+  - group: ${{ variables.variableGroup }}
+  jobs:
+  - template: pipelines/templates/deploy.yml
+    parameters:
+      target: ${{ parameters.target }}
+      imageTag: $(Build.BuildId)
+
+# ───────────── QA ─────────────
+- stage: Deploy_QA
+  displayName: "Deploy: QA"
+  dependsOn: Deploy_Dev
+  variables:
+  - template: pipelines/vars/qa.yml
+  - group: ${{ variables.variableGroup }}
+  jobs:
+  - template: pipelines/templates/deploy.yml
+    parameters:
+      target: ${{ parameters.target }}
+      imageTag: $(Build.BuildId)
+
+# ───────────── TESTING ─────────────
+- stage: Deploy_Testing
+  displayName: "Deploy: Testing"
+  dependsOn: Deploy_QA
+  variables:
+  - template: pipelines/vars/testing.yml
+  - group: ${{ variables.variableGroup }}
+  jobs:
+  - template: pipelines/templates/deploy.yml
+    parameters:
+      target: ${{ parameters.target }}
+      imageTag: $(Build.BuildId)
+
+# ───────────── PROD ─────────────
+- stage: Deploy_Prod
+  displayName: "Deploy: Prod"
+  dependsOn: Deploy_Testing
+  variables:
+  - template: pipelines/vars/prod.yml
+  - group: ${{ variables.variableGroup }}
+  jobs:
+  - template: pipelines/templates/deploy.yml
+    parameters:
+      target: ${{ parameters.target }}
+      imageTag: $(Build.BuildId)
+```
+
+**How promotion works:**
+
+* **Each stage** loads its **own env vars file** and **secret variable group**.
+* Use **Azure DevOps Environments** named `dev`, `qa`, `testing`, `prod` and attach **approvals** to them (Project Settings → Pipelines → Environments).
+* The same **deploy template** runs 4 times with different variables.
+
+---
+
+## Quick mental model (no confusion):
+
+* **Variables** `$(var)` → values from `common.yml` + `env.yml` + variable groups (resolved at runtime in jobs)
+* **Parameters** `${{ parameters.x }}` → choices passed from main → templates (resolved at compile time; control flow/behavior)
+* **Template** → reusable logic; reads variables and accepts parameters
+
+---
+
+Want me to plug in your **actual names** (your ACR `gurdianacr.azurecr.io`, App Service name, Helm values) so this runs in your repo with minimal edits?
+
+
+Short answer: **No.** In real-world teams you **do not** deploy to Dev, QA, Testing, and Prod at the same time.
+You **build once** and **promote the same artifact** through environments **sequentially** with quality gates.
+
+## Why not all at once?
+
+* **Risk control:** a bug hits Dev first, not Prod.
+* **Signal quality:** each env validates a different thing (Dev = integration, QA = functionality, Testing/UAT = business sign-off, Prod = customers).
+* **Compliance & audit:** approvals and change tickets are tied to promotions.
+* **Config drift detection:** issues surface earlier when config differs across envs.
+* **Rollback simplicity:** easier to stop promotion than undo a 4-env blast.
+
+## When is “multiple at once” okay?
+
+* **Lower envs only** (e.g., Dev + QA in parallel) to speed feedback—**never include Prod**.
+* **Emergency hotfixes** can skip some gates, but still **separate Prod** with an approval/check.
+* **Feature flags**: you can ship the code everywhere “dark” and enable the feature gradually—**deployment ≠ release**.
+
+---
+
+## Recommended pattern (production-grade)
+
+1. **CI**: produce an **immutable artifact** (image/tag or zip).
+2. **Promotion**: Dev → QA → Testing → Prod with **automated checks + approvals**.
+3. **Env-specific config**: via variable templates/groups (no code changes).
+4. **Gates**: quality gate (Sonar), smoke tests (Newman), optional DAST, manual/jira approval for Prod.
+5. **Safe release**: blue/green or canary in Prod; instant rollback.
+
+### Minimal Azure DevOps YAML (sequential promotion)
+
+```yaml
+trigger:
+  - main
+
+variables:
+- template: pipelines/vars/common.yml
+
+stages:
+- stage: CI
+  jobs:
+  - job: Build
+    steps:
+      - checkout: self
+      - task: Docker@2
+        inputs:
+          command: buildAndPush
+          containerRegistry: '$(acrServiceConnection)'
+          repository: '$(imageRepository)'
+          dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+          tags: |
+            $(Build.BuildId)
+
+# ---- Dev ----
+- stage: Deploy_Dev
+  dependsOn: CI
+  variables:
+  - template: pipelines/vars/dev.yml
+  - group: ${{ variables.variableGroup }}
+  jobs:
+  - template: pipelines/templates/deploy.yml
+    parameters:
+      target: aks
+      imageTag: $(Build.BuildId)
+
+# ---- QA (auto after Dev success) ----
+- stage: Deploy_QA
+  dependsOn: Deploy_Dev
+  variables:
+  - template: pipelines/vars/qa.yml
+  - group: ${{ variables.variableGroup }}
+  # add an Environment named 'qa' in ADO and attach approvals/checks there
+  jobs:
+  - template: pipelines/templates/deploy.yml
+    parameters:
+      target: aks
+      imageTag: $(Build.BuildId)
+
+# ---- Testing/UAT (manual approval gate) ----
+- stage: Deploy_Testing
+  dependsOn: Deploy_QA
+  variables:
+  - template: pipelines/vars/testing.yml
+  - group: ${{ variables.variableGroup }}
+  jobs:
+  - template: pipelines/templates/deploy.yml
+    parameters:
+      target: aks
+      imageTag: $(Build.BuildId)
+
+# ---- Prod (strict gates + blue/green/canary) ----
+- stage: Deploy_Prod
+  dependsOn: Deploy_Testing
+  variables:
+  - template: pipelines/vars/prod.yml
+  - group: ${{ variables.variableGroup }}
+  # Use an ADO Environment named 'prod' with required approvers and checks
+  jobs:
+  - template: pipelines/templates/deploy.yml
+    parameters:
+      target: aks
+      imageTag: $(Build.BuildId)
+```
+
+> Put **approvals/checks on Environments** (Project Settings → Pipelines → Environments: dev/qa/testing/prod).
+> Add automatic **smoke tests** as part of each stage; add **ZAP/DAST** and **ManualValidation** before Prod if needed.
+
+---
+
+## TL;DR
+
+* **Best practice:** sequential promotion with gates; **never** blast all four at once.
+* **Speed AND safety:** parallelize **lower envs**, keep **Prod** separate with strict checks.
+* **Ship dark, release later** with feature flags for safer Prod rollouts.
+
+If you want, I’ll plug this into your existing repo layout and wire it to **AKS** and **App Service** with real approvals and smoke tests.
