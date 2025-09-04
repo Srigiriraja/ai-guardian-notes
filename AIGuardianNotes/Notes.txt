@@ -13490,9 +13490,27 @@ ssh -i ~/.ssh/id_rsa devopsuser@<public_ip>
 Would you like me to extend this into a **Terraform + Azure DevOps pipeline example** where the pipeline injects the VM public key from **Key Vault** during VM creation, so you can show **enterprise-grade SSH key management** in an interview?
 
 
+17.On what Azure Services you actually worked on ?
+Ans : VM's , VMSS , Azure Firewall , Vnet , Subscritption and Management Groups , Rg's , Backup , Recovery Services vault , AKS , ACR , Azure DevOps , NSG , App Services , Application Gateway , web apps , Key Vault , App insights , Azure SQL , Cosmos DB , Azure Blob , Azure Load Balancer , Azure Advisor , Entra ID , Azure Policies , RBAC , Site to Site VPN , Azure Firewall , Azure DNS , Azure Bastion.
 
+Instaed using Azure Monitor we used below two :
+🔹 Datadog
 
+Cloud-native monitoring & security platform.
 
+Features: infra metrics, APM (Application Performance Monitoring), log management, security monitoring.
+
+Real-time use: PwC and Amazon use Datadog dashboards to monitor multi-cloud (Azure + AWS).
+
+Strength: Easy integration with Azure services (VMs, AKS, Functions, App Services).
+
+🔹 Dynatrace
+
+AI-driven monitoring (full-stack + deep app insights).
+
+Real-time use: Bosch uses Dynatrace to track IoT apps across AKS clusters.
+
+Strength: Auto-discovery, automatic root cause analysis (RCA).
 
 
 
