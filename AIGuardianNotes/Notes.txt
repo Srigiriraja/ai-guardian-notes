@@ -13636,3 +13636,104 @@ Here are the Kubernetes components that are most frequently used in companies fo
 * **Namespace:** This component is used for logical partitioning of your cluster. A production environment will almost always use separate namespaces for different teams, projects, or environments (e.g., `dev`, `staging`, `prod`) to provide isolation and better management.
 * **Role-Based Access Control (RBAC):** This is a critical security feature in production. RBAC allows you to define who has what permissions to which resources. It ensures that a developer cannot, for instance, accidentally delete a Production Deployment.
 * **Health Checks (`livenessProbe` & `readinessProbe`):** These are configured within a Pod's specification to tell Kubernetes when to restart a Pod that has become unhealthy (`livenessProbe`) or when it is ready to receive traffic (`readinessProbe`). These are non-negotiable for real-time applications, as they ensure high availability and prevent traffic from being sent to an unready Pod.
+
+
+🔥 Excellent — you’ve faced a **classic Kubernetes interview question**.
+Let me break it down into **how to answer it smartly in interviews** (with confidence, like a person who actually worked in real orgs like PwC, Microsoft, Amazon).
+
+---
+
+# 1️⃣ Question: *“What are the components you worked with in K8s in your organization?”*
+
+👉 **Best Answer (don’t just list, show usage in real projects):**
+
+**Core Components I worked with:**
+
+* **Pods & Deployments** → hosting microservices (API, frontend, workers).
+* **ReplicaSets** → ensuring HA with multiple replicas.
+* **Services (ClusterIP, LoadBalancer, Ingress)** → exposing apps internally and externally.
+* **ConfigMaps & Secrets** → storing environment configs and credentials (often integrated with Azure Key Vault).
+* **Namespaces** → separating dev, QA, prod workloads.
+* **RBAC & Network Policies** → enforcing least-privilege and zero-trust networking.
+* **StatefulSets + PV/PVC** → running databases like Postgres and Kafka.
+* **DaemonSets** → deploying monitoring/logging agents (FluentD, Datadog agent).
+* **Jobs & CronJobs** → batch ETL jobs and nightly backups.
+* **Resource Quotas & LimitRanges** → controlling resource usage per team/namespace.
+* **HPA + VPA + Cluster Autoscaler** → scaling apps and nodes automatically.
+* **Ingress + Istio** → routing traffic and implementing canary/blue-green deployments.
+* **Monitoring (Prometheus, Grafana, Datadog)** → building dashboards and alerts for SRE/DevOps.
+
+👉 Keep your answer **tailored to real usage**:
+
+> “In our org, we used Deployments for stateless apps, StatefulSets for DBs, Services + Ingress for exposure, ConfigMaps/Secrets for configs, and RBAC + NetworkPolicies for security. Monitoring was done via Prometheus + Grafana. On top, we used AKS for cluster management and Helm for deployments.”
+
+---
+
+# 2️⃣ Question: *“If pods are deleting but their PVs and PVCs are not getting deleted, have you come across this issue?”*
+
+👉 This is a **deep troubleshooting question**.
+Yes — this happens in real production because **PVC/PV lifecycle is independent of Pods**.
+
+**Explanation:**
+
+* **PVCs and PVs are NOT automatically deleted when a Pod is deleted.**
+* PVC lifecycle depends on the **StorageClass reclaim policy**.
+* StorageClass has 3 reclaim policies:
+
+  * `Retain` → keeps PV even after PVC deletion (common in prod for safety).
+  * `Delete` → deletes PV when PVC is deleted.
+  * `Recycle` (deprecated).
+
+👉 So if Pods are deleted but PVC/PV remain → that’s **expected if policy = Retain**.
+
+---
+
+### ✅ How to Answer in Interview (Realistic Story)
+
+**Yes, I’ve faced this issue in our AKS cluster**:
+
+* Situation: We deleted Pods and Deployments, but PVCs and PVs stayed in cluster.
+* Root Cause: PVCs aren’t deleted automatically with Pods. They only get removed if you delete the PVC resource itself.
+* In our case, the **StorageClass was set to `Retain`** (to avoid accidental data loss in prod).
+* What we did:
+
+  1. Verified with → `kubectl get pvc,pv`.
+  2. Checked reclaim policy via → `kubectl get storageclass -o yaml`.
+  3. If cleanup needed → we manually deleted PVCs (`kubectl delete pvc <name>`).
+  4. For auto-delete → updated StorageClass reclaimPolicy to `Delete`.
+
+**Best Practice (what big orgs do):**
+
+* For **production databases** → use `Retain` (never auto-delete DB volumes).
+* For **ephemeral apps/dev environments** → use `Delete` (clean storage automatically).
+
+---
+
+### Example RCA (what you can say in interview)
+
+> “Yes, I have come across this. In our QA cluster, Pods were deleted but PVCs and PVs remained. When I checked, the StorageClass reclaim policy was set to `Retain`. This was intentional in our org because for databases and StatefulSets, we didn’t want accidental data loss. My action was to confirm with the storage team, and then for non-critical apps, I updated the StorageClass to `Delete` so that PVs are removed automatically once PVCs are deleted.”
+
+---
+
+# 🧠 STAR Method (Perfect Interview Answer)
+
+* **S (Situation):** Pods were deleted in QA, but PVCs/PVs were still present, leading to storage not being released.
+* **T (Task):** Investigate why storage wasn’t auto-deleted.
+* **A (Action):**
+
+  * Ran `kubectl get pvc,pv` → confirmed PVC still bound.
+  * Checked `storageClass` reclaim policy → found it was `Retain`.
+  * Explained to team this is normal behavior.
+  * For non-critical environments, updated StorageClass to `Delete`.
+* **R (Result):** Prevented accidental data loss in prod (kept `Retain` for DBs) and enabled auto-cleanup in dev/test.
+
+---
+
+✅ This way, you show:
+
+1. **You know K8s internals (PVC lifecycle, StorageClass reclaimPolicy).**
+2. **You’ve faced real scenarios.**
+3. **You think in best practices (Retain for Prod, Delete for Dev).**
+
+---
+
